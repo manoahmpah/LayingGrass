@@ -1,6 +1,7 @@
 #include "Cell.h"
 
-Cell::Cell() : _isUsed(false), _isTilesPlayer(false) {}
+Cell::Cell() : _isUsed(false), _isTilesPlayer(false) {
+}
 
 
 /* ========= Getter ========= */
@@ -14,4 +15,8 @@ bool Cell::getIsTilesPlayer() const {
 /* ========= Setter ========= */
 void Cell::setUsed(const bool isUsed) {
     _isUsed = isUsed;
+}
+
+void Cell::setIdPlayer(const int idPlayer) {
+    _idPlayer = idPlayer;
 }

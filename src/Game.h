@@ -12,9 +12,11 @@ public:
     void createMussels();
     void displayMold(int index) const;
     void displayBoard() const;
+    void placeTile(int x, int y) const;
 
     /* ========= Getter ========= */
     [[nodiscard]] int getNumberPlayerPlaying() const;
+    [[nodiscard]] Player getPlayer(int index) const;
 
     /* ========= Setter ========= */
     void setNumberPlayerPlaying(int numberPlayerPlaying);

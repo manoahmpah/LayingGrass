@@ -1,9 +1,6 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include "Player.h"
-
-
 class Cell {
 public:
     Cell();
@@ -11,16 +8,17 @@ public:
     /* ========= Getter ========= */
     [[nodiscard]] bool getIsUsed() const;
     [[nodiscard]] bool getIsTilesPlayer() const;
+    bool getPlayer();
 
     /* ========= Setter ========= */
     void setUsed(bool isUsed);
+    void setIdPlayer(int idPlayer);
 
 private:
     bool _isUsed;
     bool _isTilesPlayer;
-    Player _player;
+    int _idPlayer{};
 };
 
 
-
-#endif //CELL_H
+#endif

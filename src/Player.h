@@ -2,13 +2,19 @@
 #define PLAYER_H
 
 #include <string>
+#include "Board.h"
 
 class Player {
 public:
-    Player();
+    Player(int idPlayer, Board& board);
+
+    void placeTile(int x, int y) const;
+    void getBoard() const;
+
 private:
+    int _idPlayer;
     std::string _name;
-    // Color _color;
+    Board& _board;
 };
 
 

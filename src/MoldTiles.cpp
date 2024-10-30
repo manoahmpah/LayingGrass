@@ -13,6 +13,7 @@ MoldTiles::MoldTiles(const std::vector <std::vector <int> > &tiles) : _mold(null
     createMold();
     addTiles(tiles);
 }
+
 MoldTiles::~MoldTiles() {
     for (int i = 0; i < _size; i++) {
         delete[] _mold[i];
@@ -57,7 +58,7 @@ void MoldTiles::addTiles(const std::vector <std::vector <int> > &tiles) const {
 }
 
 
-MoldTiles::MoldTiles(const MoldTiles& other) : _player(other._player), _size(other._size) {
+MoldTiles::MoldTiles(const MoldTiles& other) : _size(other._size) {
     _mold = new Cell*[_size];
     for (int i = 0; i < _size; ++i) {
         _mold[i] = new Cell[_size];
@@ -78,7 +79,6 @@ MoldTiles& MoldTiles::operator=(const MoldTiles& other) {
     delete[] _mold;
 
     _size = other._size;
-    _player = other._player;
 
     _mold = new Cell*[_size];
     for (int i = 0; i < _size; ++i) {

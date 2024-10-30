@@ -26,7 +26,6 @@ private:
     void addTile(int x, int y) const;
 
     Cell **_mold;
-    Player _player;
     int _size;
 
 };

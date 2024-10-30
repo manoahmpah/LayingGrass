@@ -1,5 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
+#include <ostream>
+
 #include "Cell.h"
 
 
@@ -12,11 +14,15 @@ public:
     ~Board();
 
     void displayBoard() const;
+    void placeTile(int x, int y) const;
     void adjustSize(int numberPlayerPlaying);
-
-private:
     Board &operator=(const Board &other);
 
+    [[nodiscard]] bool getIsUsed(int x, int y) const;
+
+    void setIdPlayer(int x, int y, int idPlayer) const;
+
+private:
     void createBoard();
     int _size;
     Cell **_board{};

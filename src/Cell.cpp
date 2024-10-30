@@ -1,6 +1,5 @@
 #include "Cell.h"
 
-
 Cell::Cell() : _isUsed(false), _isTilesPlayer(false) {}
 
 

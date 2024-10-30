@@ -55,3 +55,37 @@ void MoldTiles::addTiles(const std::vector <std::vector <int> > &tiles) const {
         addTile(tile[0], tile[1]);
     }
 }
+
+
+MoldTiles::MoldTiles(const MoldTiles& other) : _player(other._player), _size(other._size) {
+    _mold = new Cell*[_size];
+    for (int i = 0; i < _size; ++i) {
+        _mold[i] = new Cell[_size];
+        for (int j = 0; j < _size; ++j) {
+            _mold[i][j] = other._mold[i][j];
+        }
+    }
+}
+
+MoldTiles& MoldTiles::operator=(const MoldTiles& other) {
+    if (this == &other) {
+        return *this;
+    }
+
+    for (int i = 0; i < _size; ++i) {
+        delete[] _mold[i];
+    }
+    delete[] _mold;
+
+    _size = other._size;
+    _player = other._player;
+
+    _mold = new Cell*[_size];
+    for (int i = 0; i < _size; ++i) {
+        _mold[i] = new Cell[_size];
+        for (int j = 0; j < _size; ++j) {
+            _mold[i][j] = other._mold[i][j];
+        }
+    }
+    return *this;
+}

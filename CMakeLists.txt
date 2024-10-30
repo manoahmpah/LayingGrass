@@ -8,6 +8,8 @@ add_executable(LayingGrass
         src/Cell.cpp
         src/Player.cpp
         src/MoldTiles.cpp
+        src/Game.cpp
+        src/Board.cpp
 )
 
 target_link_options(LayingGrass PUBLIC -static -static-libgcc -static-libstdc++)

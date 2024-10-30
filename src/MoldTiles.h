@@ -11,6 +11,8 @@ public:
 
     /* ========= Constructor & Deconstruct ========= */
     explicit MoldTiles(const std::vector <std::vector <int> > &tiles);
+    MoldTiles(const MoldTiles& other);
+    MoldTiles& operator=(const MoldTiles& other);
     ~MoldTiles();
 
     /* ========= Method ========= */

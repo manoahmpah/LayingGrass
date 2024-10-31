@@ -11,7 +11,7 @@ void Player::placeTile(const int x, const int y) const {
     _board.setIdPlayer(x, y , _idPlayer);
 }
 
-void Player::placeTiles(const int x, const int y, shapeTile &shapeTile) const {
+void Player::placeTiles(const int x, const int y, ShapeTile &shapeTile) const {
     _board.placeTiles(x - 1, y - 1, _idPlayer, shapeTile.getTile());
     shapeTile.setPosed(true);
 }

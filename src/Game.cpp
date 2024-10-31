@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include <iostream>
+
 Game::Game() : _numberPlayerPlaying(2), _board(_numberPlayerPlaying) {
     createMussels();
 }
@@ -18,9 +20,11 @@ void Game::displayBoard() const {
     _board.displayBoard();
 }
 void Game::startGame() {
-    setNumberPlayerPlaying(2);
+    setNumberPlayerPlaying(9);
+    _board.placeRandomlyBonus(getNumberPlayerPlaying());
     _players[0].placeTiles(5, 5, _shapeTiles[0]);
     _players[0].placeTiles(9, 9, _shapeTiles[1]);
+
     displayBoard();
 }
 
@@ -32,7 +36,7 @@ Player Game::getPlayer(const int index) const {
     return _players[index];
 }
 
-shapeTile Game::getShapeTile(const int index) const {
+ShapeTile Game::getShapeTile(const int index) const {
     return _shapeTiles[index];
 }
 

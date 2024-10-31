@@ -1,4 +1,5 @@
 #include "Board.h"
+#include <random>
 #ifdef _WIN32
     #include <windows.h>
     #define SET_CONSOLE_UTF8 SetConsoleCP(CP_UTF8); SetConsoleOutputCP(CP_UTF8);
@@ -75,9 +76,68 @@ void Board::displayBoard() const {
 void Board::placeTile(const int x, const int y, const int idPlayer) const {
     _board[x][y].setUsed(true);
     _board[x][y].setIdPlayer(idPlayer);
+    _board[x][y].setTilesPlayer(true);
+}
+
+void Board::placeBonusTileExchange(const int x, const int y) const {
+    _board[x][y].setUsed(true);
+    _board[x][y].setBonusTileExchange(true);
+}
+
+void Board::placeBonusStone(const int x, const int y) const {
+    _board[x][y].setUsed(true);
+    _board[x][y].setBonusStone(true);
+}
+
+void Board::placeBonusRobbery(const int x, const int y) const {
+    _board[x][y].setUsed(true);
+    _board[x][y].setBonusRobbery(true);
+}
+
+void Board::placeRandomlyBonus(const int numberPlayerPlaying) {
+    const double numberOfStone = numberPlayerPlaying * 0.5;
+    const double numberOfRobbery = numberPlayerPlaying;
+    const double numberOfTileExchange = numberPlayerPlaying * 1.5;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution dis(1, _size - 2);
+
+    for (int i = 0; i < static_cast<int>(numberOfStone); i++) {
+        int x = dis(gen);
+        int y = dis(gen);
+        _positionBonus.emplace_back(x, y);
+        placeBonusStone(x, y);
+
+    }
+
+    for (int i = 0; i < static_cast<int>(numberOfTileExchange); i++) {
+        const int x = dis(gen);
+        const int y = dis(gen);
+        _positionBonus.emplace_back(x, y);
+        placeBonusTileExchange(x, y);
+
+    }
+
+    for (int i = 0; i < static_cast<int>(numberOfRobbery); i++) {
+        const int x = dis(gen);
+        const int y = dis(gen);
+        _positionBonus.emplace_back(x, y);
+        placeBonusRobbery(x, y);
+    }
+
+    std::cout << "Number of Bonus : " << _positionBonus.size() << std::endl;
 }
 
 void Board::placeTiles(const int x, const int y, const int idPlayer, const std::vector <std::vector<int> > &tiles) const {
+    for (const auto & tile : tiles) {
+        if (x + tile[0] < 0 || x + tile[0] >= _size || y + tile[1] < 0 || y + tile[1] >= _size) {
+            throw std::out_of_range("Board::placeTiles(const int x, const int y, const int idPlayer, const std::vector<std::vector<int>> &tiles) : Out of range");
+        }
+        if (_board[x + tile[0]][y + tile[1]].getIsUsed()) {
+            throw std::invalid_argument("Board::placeTiles(const int x, const int y, const int idPlayer, const std::vector<std::vector<int>> &tiles) : Cell already used");
+        }
+    }
     for (const auto & tile : tiles) {
         placeTile(tile[0] + x , tile[1] + y, idPlayer);
     }
@@ -91,7 +151,15 @@ std::ostream &operator<<(std::ostream &os, const Board &board) {
         os << " " << static_cast<char>(65 + i) << " ";
         for (int j = 0; j < board._size; j++) {
             if (board._board[i][j].getIsUsed()) {
-                os << "██ ";
+                if (board._board[i][j].getIsTilesPlayer()) {
+                    os << "███";
+                } else if (board._board[i][j].getBonusTileExchange()) {
+                    os << " ↺ ";
+                } else if (board._board[i][j].getBonusStone()) {
+                    os << "🪨 ";
+                } else if (board._board[i][j].getBonusRobbery()) {
+                    os << "🕳️ ";
+                }
             } else {
                 os << " . ";
             }

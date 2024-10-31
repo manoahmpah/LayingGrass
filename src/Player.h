@@ -3,15 +3,15 @@
 
 #include <string>
 #include "Board.h"
-#include "shapeTile.h"
+#include "ShapeTile.h"
 
 class Player {
 public:
     Player(int idPlayer, Board& board);
     void placeTile(int x, int y) const;
-    void placeTiles(int x, int y, shapeTile &shapeTile) const;
+    void placeTiles(int x, int y, ShapeTile &shapeTile) const;
 
-
+    /* ========= Getter ========= */
     void getBoard() const;
 
 private:

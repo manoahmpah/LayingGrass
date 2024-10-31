@@ -3,9 +3,9 @@
 #include <vector>
 
 
-class shapeTile {
+class ShapeTile {
 public:
-    explicit shapeTile(const std::vector <std::vector <int> > &tile);
+    explicit ShapeTile(const std::vector <std::vector <int> > &tile);
 
     /* ========= Getter ========= */
     [[nodiscard]] bool getIsPosed() const;

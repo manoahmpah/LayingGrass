@@ -9,6 +9,7 @@
 #include <iostream>
 #include <ostream>
 #include <stdexcept>
+#include <vector>
 
 Board::Board(const int numberPlayerPlaying) : _size(20){
     adjustSize(numberPlayerPlaying);
@@ -71,8 +72,15 @@ void Board::adjustSize(const int numberPlayerPlaying) {
 void Board::displayBoard() const {
     std::cout << *this;
 }
-void Board::placeTile(const int x, const int y) const {
+void Board::placeTile(const int x, const int y, const int idPlayer) const {
     _board[x][y].setUsed(true);
+    _board[x][y].setIdPlayer(idPlayer);
+}
+
+void Board::placeTiles(const int x, const int y, const int idPlayer, const std::vector <std::vector<int> > &tiles) const {
+    for (const auto & tile : tiles) {
+        placeTile(tile[0] + x , tile[1] + y, idPlayer);
+    }
 }
 
 std::ostream &operator<<(std::ostream &os, const Board &board) {

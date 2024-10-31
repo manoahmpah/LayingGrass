@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "Cell.h"
-#include "Player.h"
 
 class MoldTiles {
 public:

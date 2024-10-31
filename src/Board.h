@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include <ostream>
+#include <vector>
 
 #include "Cell.h"
 
@@ -14,7 +15,8 @@ public:
     ~Board();
 
     void displayBoard() const;
-    void placeTile(int x, int y) const;
+    void placeTile(int x, int y, int idPlayer) const;
+    void placeTiles(int x, int y, int idPlayer, const std::vector<std::vector<int>> &tiles) const;
     void adjustSize(int numberPlayerPlaying);
     Board &operator=(const Board &other);
 

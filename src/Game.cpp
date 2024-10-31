@@ -6,7 +6,7 @@ Game::Game() : _numberPlayerPlaying(2), _board(_numberPlayerPlaying) {
 
 void Game::createMussels() {
     for (const auto& PositionTile : _shapeTiles) {
-        MoldTiles moldTile1(PositionTile);
+        MoldTiles moldTile1(PositionTile.getTile());
         _mussels.push_back(moldTile1);
     }
 }
@@ -17,6 +17,12 @@ void Game::displayMold(const int index) const {
 void Game::displayBoard() const {
     _board.displayBoard();
 }
+void Game::startGame() {
+    setNumberPlayerPlaying(2);
+    _players[0].placeTiles(5, 5, _shapeTiles[0]);
+    _players[0].placeTiles(9, 9, _shapeTiles[1]);
+    displayBoard();
+}
 
 /* ========= Getter ========= */
 int Game::getNumberPlayerPlaying() const {
@@ -25,7 +31,8 @@ int Game::getNumberPlayerPlaying() const {
 Player Game::getPlayer(const int index) const {
     return _players[index];
 }
-std::vector<std::vector<int>> Game::getShapeTile(const int index) const {
+
+shapeTile Game::getShapeTile(const int index) const {
     return _shapeTiles[index];
 }
 

@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "MoldTiles.h"
 #include "Player.h"
+#include "shapeTile.h"
 
 class Game {
 public:
@@ -13,10 +14,12 @@ public:
     void displayMold(int index) const;
     void displayBoard() const;
 
+    void startGame();
+
     /* ========= Getter ========= */
     [[nodiscard]] int getNumberPlayerPlaying() const;
     [[nodiscard]] Player getPlayer(int index) const;
-    [[nodiscard]] std::vector <std::vector<int>>getShapeTile(int index) const;
+    [[nodiscard]] shapeTile getShapeTile(int index) const;
 
     /* ========= Setter ========= */
     void setNumberPlayerPlaying(int numberPlayerPlaying);
@@ -27,10 +30,10 @@ private:
     std::vector<Player> _players;
     Board _board;
 
-    const std::vector<std::vector<std::vector<int>>> _shapeTiles = {
-        {{0, 0},{1, 0},{1, 1},{1, 2}},
-        {{0, 1},{1, 1},{2, 0},{2, 1}, {2, 2}},
-        {{0, 0}, {0,1},{1, 0},{2, 0},{3, 0},{4, 0},{5, 0},{6, 0}}
+    std::vector<shapeTile> _shapeTiles = {
+        shapeTile({{0, 0},{1, 0},{1, 1},{1, 2}}),
+        shapeTile({{0, 1},{1, 1},{2, 0},{2, 1}, {2, 2}}),
+        shapeTile({{0, 0}, {0,1},{1, 0},{2, 0},{3, 0},{4, 0},{5, 0},{6, 0}})
     };
 
 };

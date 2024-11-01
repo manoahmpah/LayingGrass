@@ -87,3 +87,35 @@ If you're on Windows, you can use the provided `.bat` file to compile and run th
 ║                                                                                                      ║
 ╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
 ```
+
+## Instructions
+- **Main Menu**: 
+    - Press `1` to start a new game.
+    - Press `2` to view game instructions.
+    - Press `3` to go to setting.
+    - Press `4` to exit the game.
+
+- **Gameplay**:
+    - Use the numeric keys to input coordinates (e.g., `4 7`) to attack.
+    - The game continues until all ships from one player are sunk.
+    
+## Technologies Used
+- **C++**: Core programming language for the game's logic.
+- **ASCII Art**: For console-based visual effects and UI design.
+
+## Contributing
+Contributions are welcome! If you have any ideas or improvements for this project, feel free to fork the repository, create a feature branch, and submit a pull request.
+
+### Steps for contributing:
+1. Fork the project
+2. Create a new branch (`git checkout -b feature-branch`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature-branch`)
+5. Open a pull request
+
+---
+
+**Enjoy the game, and may the best captain win!** 🛳️🔥
+
+---
+

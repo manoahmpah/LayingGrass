@@ -111,7 +111,7 @@ Contributions are welcome! If you have any ideas or improvements for this projec
 
 ---
 
-**Enjoy the game, and may the best captain win!** 🛳️🔥
+**Enjoy the game, and may your strategy lead to victory!** 🌿🏆
 
 ---
 

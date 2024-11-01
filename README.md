@@ -94,11 +94,7 @@ If you're on Windows, you can use the provided `.bat` file to compile and run th
     - Press `2` to view game instructions.
     - Press `3` to go to setting.
     - Press `4` to exit the game.
-
-- **Gameplay**:
-    - Use the numeric keys to input coordinates (e.g., `4 7`) to attack.
-    - The game continues until all ships from one player are sunk.
-    
+   
 ## Technologies Used
 - **C++**: Core programming language for the game's logic.
 - **ASCII Art**: For console-based visual effects and UI design.

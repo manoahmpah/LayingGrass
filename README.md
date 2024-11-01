@@ -1,6 +1,6 @@
 # LayingGrass 🌱
 
-Welcome to **LayingGrass** – an exciting console-based strategy game where players compete to expand their territory by placing grass tiles on the board! The player with the largest area of grass at the end of the game wins!
+Welcome to **LayingGrass** – an exciting console-based strategy game inspired by a Netflix series call **The Devil's Plan (데블스 플랜)**, where players compete to expand their territory by placing grass tiles on the board! The player with the largest area of grass at the end of the game wins!
 
 ## Table of Contents
 1. [About the Game](#about-the-game)

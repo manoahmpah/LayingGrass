@@ -4,22 +4,32 @@
 #include <string>
 #include "Board.h"
 #include "ShapeTile.h"
+#include "Color.h"
 
 class Player {
 public:
     Player(int idPlayer, Board& board);
+
     void placeTile(int x, int y) const;
     void placeTiles(int x, int y, ShapeTile &shapeTile) const;
 
     /* ========= Getter ========= */
+    [[nodiscard]] std::string getName() const;
+    [[nodiscard]] int getIdPlayer() const;
     void getBoard() const;
+    [[nodiscard]] std::string getColor() const;
+
+    /* ========= Setter ========= */
+    void setName(const std::string_view &name);
+    void setColor(Color color);
 
 private:
     int _idPlayer;
     std::string _name;
     Board& _board;
+    Color _color;
 };
 
 
 
-#endif //PLAYER_H
+#endif

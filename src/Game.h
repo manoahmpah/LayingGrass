@@ -10,11 +10,15 @@
 class Game {
 public:
     Game();
+
     void createMussels();
     void displayMold(int index) const;
     void displayBoard() const;
-
     void startGame();
+
+    /* Not yet implement */
+    int gameLoop();
+    void settingGame() const;
 
     /* ========= Getter ========= */
     [[nodiscard]] int getNumberPlayerPlaying() const;
@@ -23,8 +27,11 @@ public:
 
     /* ========= Setter ========= */
     void setNumberPlayerPlaying(int numberPlayerPlaying);
+    void setDefaultColor(int numberPlayerPlaying);
 
 private:
+    static void clearScreen();
+
     int _numberPlayerPlaying;
     std::vector<MoldTiles> _mussels;
     std::vector<Player> _players;

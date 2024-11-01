@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "shapeTile.h"
 
-Player::Player(const int idPlayer, Board& board) : _idPlayer(idPlayer), _name("Player"), _board(board) {
+Player::Player(const int idPlayer, Board& board) : _idPlayer(idPlayer), _name("None"), _board(board) {
     _idPlayer = idPlayer;
     _board = board;
 };
@@ -16,6 +16,26 @@ void Player::placeTiles(const int x, const int y, ShapeTile &shapeTile) const {
     shapeTile.setPosed(true);
 }
 
+
+/* ========= Getter ========= */
+std::string Player::getName() const {
+    return _name;
+}
 void Player::getBoard() const {
     _board.displayBoard();
+}
+int Player::getIdPlayer() const {
+    return _idPlayer;
+}
+
+std::string Player::getColor() const {
+    return getColorCode(_color);
+}
+
+/* ========= Setter ========= */
+void Player::setName(const std::string_view &name) {
+    _name = name;
+}
+void Player::setColor(const Color color) {
+    _color = color;
 }

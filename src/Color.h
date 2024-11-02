@@ -4,19 +4,18 @@
 #include <string>
 
 enum class Color {
-    RESET = 0,
+    MAGENTA,
     RED,
     GREEN,
     BLUE,
     YELLOW,
     CYAN,
-    MAGENTA,
     ORANGE,
-    PURPLE,
+    GREEN2,
     PINK
 };
 
 std::string getColorCode(Color color);
-std::string getColorString(const std::string& codeColor);
+std::string getColorString(const std::string_view& codeColor);
 
 #endif

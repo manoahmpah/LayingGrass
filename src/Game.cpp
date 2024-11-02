@@ -1,11 +1,12 @@
 #include "Game.h"
-
+#include <unistd.h>
 #include <format>
 
 #include "Art.h"
 
 #include <iostream>
 #include <regex>
+#include <thread>
 
 
 Game::Game() : _numberPlayerPlaying(2), _board(_numberPlayerPlaying) {
@@ -35,10 +36,27 @@ void Game::displayBoard() const {
 }
 
 void Game::startGame() {
+
+    if (!_isGameRunning) {
+        _isGameRunning = true;
+        for (int time = 0; time <= 100; time += 7) {
+            Art::loadingPage();
+            Art::loadingBar(time);
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            std::cout << "\r";
+            if (time == 98) {
+                sleep(3);
+            }
+            clearScreen();
+        }
+        sleep(2);
+    }
+
     std::string choose;
     Art::showLandingPage();
 
     /* ========= default configuration ========= */
+    _players.clear();
     setNumberPlayerPlaying(9);
     setDefaultColor(_numberPlayerPlaying);
     for (auto& player : _players) {
@@ -70,6 +88,7 @@ void Game::startGame() {
             break;
             }
         case 3:
+            clearScreen();
             settingGame();
             break;
         case 4:
@@ -90,7 +109,6 @@ int Game::gameLoop() {
 }
 
 void Game::settingGame() const {
-    clearScreen();
     Art::showSetting(_players);
 }
 
@@ -116,8 +134,8 @@ void Game::setNumberPlayerPlaying(const int numberPlayerPlaying) {
 }
 
 void Game::setDefaultColor(const int numberPlayerPlaying) {
-    for (int i = 0; i < numberPlayerPlaying; i++) {
-        _players[i].setColor(static_cast<Color>(i + 1));
+    for (int i = 1; i < numberPlayerPlaying; i++) {
+        _players[i].setColor(static_cast<Color>(i));
     }
 
 }

@@ -12,6 +12,58 @@
 
 using namespace std;
 
+void Art::loadingPage() {
+    #ifdef _WIN32
+    SET_CONSOLE_UTF8
+    #endif
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "\n";
+    cout << "     ██╗      █████╗ ██╗   ██╗██╗███╗   ██╗ ██████╗      ██████╗ ██████╗  █████╗ ███████╗███████╗\n";
+    cout << "     ██║     ██╔══██╗╚██╗ ██╔╝██║████╗  ██║██╔════╝     ██╔════╝ ██╔══██╗██╔══██╗██╔════╝██╔════╝\n";
+    cout << "     ██║     ███████║ ╚████╔╝ ██║██╔██╗ ██║██║  ███╗    ██║  ███╗██████╔╝███████║███████╗███████╗\n";
+    cout << "     ██║     ██╔══██║  ╚██╔╝  ██║██║╚██╗██║██║   ██║    ██║   ██║██╔══██╗██╔══██║╚════██║╚════██║\n";
+    cout << "     ███████╗██║  ██║   ██║   ██║██║ ╚████║╚██████╔╝    ╚██████╔╝██║  ██║██║  ██║███████║███████║\n";
+    cout << "     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝\n";
+
+
+}
+
+void Art::loadingBar(const int time) {
+    if (time < 10) {
+        cout << "     █████████";
+    } else if (time >= 10 && time < 20) {
+        cout << "     █████████████████";
+    } else if (time >= 20 && time < 30) {
+        cout << "     █████████████████████████";
+    } else if (time >= 30 && time < 40) {
+        cout << "     █████████████████████████████████";
+    } else if (time >= 40 && time < 50) {
+        cout << "     █████████████████████████████████████████";
+    } else if (time >= 50 && time < 60) {
+        cout << "     █████████████████████████████████████████████████";
+    } else if (time >= 60 && time < 70) {
+        cout << "     █████████████████████████████████████████████████████████";
+    } else if (time >= 70 && time < 80) {
+        cout << "     █████████████████████████████████████████████████████████████████";
+    } else if (time >= 80 && time < 90) {
+        cout << "     █████████████████████████████████████████████████████████████████████████";
+    } else if (time >= 90 && time < 100) {
+        cout << "     ████████████████████████████████████████████████████████████████████████████████████████████";
+    }  else {
+        cout << "     ████████████████████████████████████████████████████████████████████████████████████████████";
+    }
+    cout << "\n";
+    cout << "\n";
+    cout << "     © 2024 Manoah & David" << " [" << time << "%]" << "\n";
+
+}
+
 void Art::showLandingPage() {
     #ifdef _WIN32
     SET_CONSOLE_UTF8
@@ -41,6 +93,7 @@ void Art::showLandingPage() {
     cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
     cout << "> ";
 }
+
 
 void Art::showInstructions() {
 #ifdef _WIN32
@@ -99,17 +152,17 @@ void Art::showSetting(const vector<Player> &players) {
     cout << "║                     ╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝                        ║\n";
     cout << "║                                                                                                      ║\n";
     cout << "║                                                                                                      ║\n";
-    for (size_t i = 0; i < players.size(); i += 2) { // Pas de 2
+    for (size_t i = 0; i < players.size(); i += 2) {
 
-        cout << "║                                     " << players[i].getIdPlayer() << ". " << players[i].getName();
-        i+1 < players.size() ? cout << " " << players[i+1].getName() : cout << "";
-        for (int j = 0; j < 65 - players[i].getName().length() - 4 - players[i+1].getName().length(); j++) {
+        cout << "║                                    " << players[i].getIdPlayer() << ". " << players[i].getName();
+        i+1 < players.size() ? cout << "    " << players[i+1].getIdPlayer() << ". " << players[i+1].getName() : cout << "";
+        for (int j = 0; j < 65 - players[i].getName().length() - 9 - (i+1 < players.size() ? players[i+1].getName().length() : -1); j++) {
             cout << " ";
         }
         cout << "║\n";
-        cout << "║                                        " << getColorString(players[i].getColor());
-        i+1 < players.size() ? cout << "       " << getColorString(players[i+1].getColor()) : cout << "";
-        for (int j = 0; j < 62 - getColorString(players[i].getColor()).length() - getColorString(players[i+1].getColor()).length() -1; j++) {
+        cout << "║                                       " << players[i].getColor() << getColorString(players[i].getColor()) << "\033[0m";
+        i+1 < players.size() ? cout << "          " << players[i+1].getColor() << getColorString(players[i+1].getColor()) << "\033[0m" : cout << "";
+        for (int j = 0; j < 53 - getColorString(players[i].getColor()).length() - (i+1 < players.size() ? getColorString(players[i+1].getColor()).length() : 0); j++) {
             cout << " ";
         }
         cout << "║\n";

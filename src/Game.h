@@ -36,6 +36,7 @@ private:
     std::vector<MoldTiles> _mussels;
     std::vector<Player> _players;
     Board _board;
+    bool _isGameRunning = false;
 
     std::vector<ShapeTile> _shapeTiles = {
         ShapeTile({{0, 0},{1, 0},{1, 1},{1, 2}}),

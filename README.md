@@ -40,7 +40,7 @@ Welcome to **LayingGrass** – an exciting console-based strategy game inspired 
 ### Steps
 1. Clone this repository:
     ```bash
-    git clone https://github.com/mpahmanoah/LayingGrass.git
+    git clone https://github.com/manoahmpah/LayingGrass.git
     ```
 
 2. Navigate to the project directory:

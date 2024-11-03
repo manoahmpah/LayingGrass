@@ -13,7 +13,7 @@ public:
     static void showInstructions() ;
     static void invalidOption();
 
-    static void showSetting(const std::vector<Player> &players);
+    static void showPlayers(const std::vector<Player> &players);
 
 private:
     static void space(size_t number);

@@ -12,7 +12,7 @@ public:
     [[nodiscard]] bool getBonusTileExchange() const;
     [[nodiscard]] bool getBonusStone() const;
     [[nodiscard]] bool getBonusRobbery() const;
-    bool getPlayer();
+    [[nodiscard]] int getIDPlayer() const;
 
     /* ========= Setter ========= */
     void setUsed(bool isUsed);
@@ -25,7 +25,7 @@ public:
 private:
     bool _isUsed;
     bool _isTilesPlayer;
-    int _idPlayer{};
+    int _idPlayer = 10;
     struct Bonus {
         bool tileExchange = false;
         bool stone = false;

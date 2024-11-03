@@ -10,6 +10,7 @@
 
 
 Game::Game() : _numberPlayerPlaying(2), _board(_numberPlayerPlaying) {
+    setNumberPlayerPlaying(_numberPlayerPlaying);
     createMussels();
 }
 
@@ -62,6 +63,7 @@ void Game::startGame() {
     for (auto& player : _players) {
         player.setName(std::format("Player {} ", player.getIdPlayer()));
     }
+    _board.setPlayers(&_players);
 
 
     std::cin >> choose;
@@ -81,9 +83,6 @@ void Game::startGame() {
             Art::showInstructions();
             std::string chooseInstruction;
             std::getline(std::cin, chooseInstruction);
-            if (!chooseInstruction.empty()) {
-                std::getline(std::cin, chooseInstruction);
-            }
             clearScreen();
             startGame();
             break;
@@ -101,15 +100,15 @@ void Game::startGame() {
 
 int Game::gameLoop() {
     _board.placeRandomlyBonus(getNumberPlayerPlaying());
-    // _players[0].placeTiles(5, 5, _shapeTiles[0]);
+    _players[1].placeTiles(5, 5, _shapeTiles[0]);
     // _players[0].placeTiles(9, 9, _shapeTiles[1]);
 
     displayBoard();
     return 0;
 }
 
-void Game::settingGame() const {
-    Art::showSetting(_players);
+void Game::settingGame() {
+    Art::showPlayers(_players);
     std::string choose;
     std::cout << "[A] Rename players      [B] Change color      [C] Reset number players      [D] Restore       [E] Cancel" << std::endl;
     std::cout << "> ";
@@ -120,7 +119,18 @@ void Game::settingGame() const {
         settingGame();
     }
 
-
+    if (choose == "A" || choose == "a") {
+        std::cout << "Enter the player number you want to rename: ";
+    } else if (choose == "B" || choose == "b") {
+        std::cout << "Enter the player number you want to change the color: ";
+    } else if (choose == "C" || choose == "c") {
+        std::cout << "Enter the number of players: ";
+    } else if (choose == "D" || choose == "d") {
+        std::cout << "Restore the default configuration" << std::endl;
+    } else if (choose == "E" || choose == "e") {
+        clearScreen();
+        startGame();
+    }
 }
 
 /* ========= Getter ========= */

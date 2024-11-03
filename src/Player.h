@@ -2,9 +2,9 @@
 #define PLAYER_H
 
 #include <string>
-#include "Board.h"
 #include "ShapeTile.h"
 #include "Color.h"
+#include "Board.h"
 
 class Player {
 public:
@@ -29,7 +29,5 @@ private:
     Board& _board;
     Color _color;
 };
-
-
 
 #endif

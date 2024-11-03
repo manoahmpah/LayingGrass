@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
-#include <vector>
 
+#include <vector>
 #include "Board.h"
 #include "MoldTiles.h"
 #include "Player.h"
@@ -18,7 +18,7 @@ public:
 
     /* Not yet implement */
     int gameLoop();
-    void settingGame() const;
+    void settingGame();
 
     /* ========= Getter ========= */
     [[nodiscard]] int getNumberPlayerPlaying() const;
@@ -30,6 +30,8 @@ public:
     void setDefaultColor(int numberPlayerPlaying);
 
 private:
+    explicit Game(int initialPlayerCount);
+
     static void clearScreen();
 
     int _numberPlayerPlaying;
@@ -43,8 +45,6 @@ private:
         ShapeTile({{0, 1},{1, 1},{2, 0},{2, 1}, {2, 2}}),
         ShapeTile({{0, 0}, {0,1},{1, 0},{2, 0},{3, 0},{4, 0},{5, 0},{6, 0}})
     };
-
 };
-
 
 #endif

@@ -20,7 +20,9 @@ bool Cell::getBonusStone() const {
 bool Cell::getBonusRobbery() const {
     return _bonus.robbery;
 }
-
+int Cell::getIDPlayer() const {
+    return _idPlayer;
+}
 
 /* ========= Setter ========= */
 void Cell::setUsed(const bool isUsed) {

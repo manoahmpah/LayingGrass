@@ -63,6 +63,7 @@ void Game::startGame() {
         player.setName(std::format("Player {} ", player.getIdPlayer()));
     }
 
+
     std::cin >> choose;
     if (const std::regex number_regex("^[1-4]$"); !std::regex_match(choose, number_regex)) {
         clearScreen();
@@ -99,10 +100,9 @@ void Game::startGame() {
 }
 
 int Game::gameLoop() {
-    setNumberPlayerPlaying(9);
     _board.placeRandomlyBonus(getNumberPlayerPlaying());
-    _players[0].placeTiles(5, 5, _shapeTiles[0]);
-    _players[0].placeTiles(9, 9, _shapeTiles[1]);
+    // _players[0].placeTiles(5, 5, _shapeTiles[0]);
+    // _players[0].placeTiles(9, 9, _shapeTiles[1]);
 
     displayBoard();
     return 0;
@@ -110,6 +110,17 @@ int Game::gameLoop() {
 
 void Game::settingGame() const {
     Art::showSetting(_players);
+    std::string choose;
+    std::cout << "[A] Rename players      [B] Change color      [C] Reset number players      [D] Restore       [E] Cancel" << std::endl;
+    std::cout << "> ";
+    std::cin >> choose;
+    if (const std::regex number_regex("^[A-Ea-e]$"); !std::regex_match(choose, number_regex)) {
+        clearScreen();
+        Art::invalidOption();
+        settingGame();
+    }
+
+
 }
 
 /* ========= Getter ========= */

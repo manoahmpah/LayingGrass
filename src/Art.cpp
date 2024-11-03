@@ -154,21 +154,29 @@ void Art::showSetting(const vector<Player> &players) {
     cout << "║                                                                                                      ║\n";
     for (size_t i = 0; i < players.size(); i += 2) {
 
+        /* ========= About Name ========= */
+
         cout << "║                                    " << players[i].getIdPlayer() << ". " << players[i].getName();
-        i+1 < players.size() ? cout << "    " << players[i+1].getIdPlayer() << ". " << players[i+1].getName() : cout << "";
-        for (int j = 0; j < 65 - players[i].getName().length() - 9 - (i+1 < players.size() ? players[i+1].getName().length() : -1); j++) {
-            cout << " ";
-        }
+        space(9 - players[i].getName().length());
+        i+1 < players.size() ? cout << "    " << players[i+1].getIdPlayer() << ". " << players[i+1].getName() : cout << "       ";
+        space(47 - players[i+1].getName().length());
         cout << "║\n";
+
+        /* ========= About Color ========= */
+
         cout << "║                                       " << players[i].getColor() << getColorString(players[i].getColor()) << "\033[0m";
-        i+1 < players.size() ? cout << "          " << players[i+1].getColor() << getColorString(players[i+1].getColor()) << "\033[0m" : cout << "";
-        for (int j = 0; j < 53 - getColorString(players[i].getColor()).length() - (i+1 < players.size() ? getColorString(players[i+1].getColor()).length() : 0); j++) {
-            cout << " ";
-        }
+        space(16 - getColorString(players[i].getColor()).length());
+        i+1 < players.size() ? cout << players[i+1].getColor() << getColorString(players[i+1].getColor()) << "\033[0m" : cout << "     ";
+        space(47 - getColorString(players[i+1].getColor()).length());
         cout << "║\n";
         cout << "║                                                                                                      ║\n";
-    }
 
-       cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
-    cout << "> ";
+    }
+    cout << "║                                                                                                      ║\n";
+    cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
+}
+void Art::space(const size_t number) {
+    for (int i = 0; i < number; i++) {
+        cout << " ";
+    }
 }

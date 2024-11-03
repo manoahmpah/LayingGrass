@@ -4,14 +4,14 @@
 #include <string>
 
 enum class Color {
-    MAGENTA,
+    WHITE,
     RED,
     GREEN,
     BLUE,
+    MAGENTA,
     YELLOW,
     CYAN,
     ORANGE,
-    GREEN2,
     PINK
 };
 

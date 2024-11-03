@@ -11,7 +11,6 @@ std::string getColorCode(const Color color) {
         case Color::CYAN:    return "\033[36m";
         case Color::MAGENTA: return "\033[35m";
         case Color::ORANGE:  return "\033[38;5;214m";
-        case Color::GREEN2:  return "\033[5m";
         case Color::PINK:    return "\033[38;5;13m";
         default:             return "\033[0m";
     }
@@ -26,6 +25,5 @@ std::string getColorString(const std::string_view& codeColor) {
     else if (codeColor == "\033[35m")   return "MAGENTA";
     else if (codeColor == "\033[38;5;214m") return "ORANGE";
     else if (codeColor == "\033[38;5;13m")  return "PINK";
-    else if (codeColor == "\033[5m") return "GREEN2";
     else return "WHITE";
 }

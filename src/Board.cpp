@@ -1,5 +1,6 @@
 #include "Board.h"
 #include <random>
+#include <algorithm>
 #ifdef _WIN32
     #include <windows.h>
     #define SET_CONSOLE_UTF8 SetConsoleCP(CP_UTF8); SetConsoleOutputCP(CP_UTF8);
@@ -104,30 +105,41 @@ void Board::placeRandomlyBonus(const int numberPlayerPlaying) {
     std::uniform_int_distribution dis(1, _size - 2);
 
     for (int i = 0; i < static_cast<int>(numberOfStone); i++) {
-        int x = dis(gen);
-        int y = dis(gen);
+        int x, y;
+        do {
+            x = dis(gen);
+            y = dis(gen);
+        } while (std::find(_positionBonus.begin(), _positionBonus.end(), std::make_pair(x, y)) != _positionBonus.end());
+
         _positionBonus.emplace_back(x, y);
         placeBonusStone(x, y);
-
     }
 
     for (int i = 0; i < static_cast<int>(numberOfTileExchange); i++) {
-        const int x = dis(gen);
-        const int y = dis(gen);
+        int x, y;
+        do {
+            x = dis(gen);
+            y = dis(gen);
+        } while (std::find(_positionBonus.begin(), _positionBonus.end(), std::make_pair(x, y)) != _positionBonus.end());
+
         _positionBonus.emplace_back(x, y);
         placeBonusTileExchange(x, y);
-
     }
 
     for (int i = 0; i < static_cast<int>(numberOfRobbery); i++) {
-        const int x = dis(gen);
-        const int y = dis(gen);
+        int x, y;
+        do {
+            x = dis(gen);
+            y = dis(gen);
+        } while (std::find(_positionBonus.begin(), _positionBonus.end(), std::make_pair(x, y)) != _positionBonus.end());
+
         _positionBonus.emplace_back(x, y);
         placeBonusRobbery(x, y);
     }
 
     std::cout << "Number of Bonus : " << _positionBonus.size() << std::endl;
 }
+
 
 void Board::placeTiles(const int x, const int y, const int idPlayer, const std::vector <std::vector<int> > &tiles) const {
     for (const auto & tile : tiles) {

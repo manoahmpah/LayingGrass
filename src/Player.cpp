@@ -34,6 +34,12 @@ std::string Player::getColor() const {
 
 /* ========= Setter ========= */
 void Player::setName(const std::string_view &name) {
+    if (name.empty()) {
+        throw std::invalid_argument("Player::setName(const std::string_view &name) : Name cannot be empty");
+    }
+    if (name.length() > 10) {
+        throw std::invalid_argument("Player::setName(const std::string_view &name) : Name cannot be more than 10 characters");
+    }
     _name = name;
 }
 void Player::setColor(const Color color) {

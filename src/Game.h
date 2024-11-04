@@ -31,8 +31,8 @@ public:
 
 private:
     explicit Game(int initialPlayerCount);
-
     static void clearScreen();
+    void setDefaultConfig();
 
     int _numberPlayerPlaying;
     std::vector<MoldTiles> _mussels;

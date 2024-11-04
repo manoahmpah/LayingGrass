@@ -25,7 +25,7 @@ public:
 private:
     bool _isUsed;
     bool _isTilesPlayer;
-    int _idPlayer = 10;
+    int _idPlayer;
     struct Bonus {
         bool tileExchange = false;
         bool stone = false;

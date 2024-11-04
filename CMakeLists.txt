@@ -14,6 +14,7 @@ add_executable(LayingGrass
         src/shapeTile.h
         src/Art.cpp
         src/Color.cpp
+        src/resource.rc
 )
 
 target_link_options(LayingGrass PUBLIC -static -static-libgcc -static-libstdc++)

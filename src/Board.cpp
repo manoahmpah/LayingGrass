@@ -64,6 +64,8 @@ void Board::adjustSize(const int numberPlayerPlaying) {
         _size = 30;
     } else if (numberPlayerPlaying < 2 || numberPlayerPlaying > 9) {
         throw std::invalid_argument("Board::adjustSize(const int numberPlayerPlaying) : Invalid number of player");
+    } else {
+        _size = 20;
     }
     createBoard();
 }

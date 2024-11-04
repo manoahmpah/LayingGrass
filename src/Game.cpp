@@ -49,21 +49,14 @@ void Game::startGame() {
                 sleep(3);
             }
             clearScreen();
+            setNumberPlayerPlaying(9);
+            setDefaultConfig();
         }
         sleep(2);
     }
 
     std::string choose;
     Art::showLandingPage();
-
-    /* ========= default configuration ========= */
-    _players.clear();
-    setNumberPlayerPlaying(9);
-    setDefaultColor(_numberPlayerPlaying);
-    for (auto& player : _players) {
-        player.setName(std::format("Player {} ", player.getIdPlayer()));
-    }
-    _board.setPlayers(&_players);
 
 
     std::cin >> choose;
@@ -120,11 +113,41 @@ void Game::settingGame() {
     }
 
     if (choose == "A" || choose == "a") {
+        int numPlayer;
+        std::string name;
+
+        std::cout << "\033[F\033[K";
+        std::cout << "\033[F\033[K";
         std::cout << "Enter the player number you want to rename: ";
+        std::cin >> numPlayer;
+        if (numPlayer > _numberPlayerPlaying) {
+            clearScreen();
+            Art::invalidOption();
+            settingGame();
+        }
+        std::cout << "\033[F\033[K";
+        std::cout << "Enter the new name: ";
+        std::cin >> name;
+        _players[numPlayer - 1].setName(name);
+        clearScreen();
+        settingGame();
     } else if (choose == "B" || choose == "b") {
         std::cout << "Enter the player number you want to change the color: ";
     } else if (choose == "C" || choose == "c") {
+        std::cout << "\033[F\033[K";
+        std::cout << "\033[F\033[K";
         std::cout << "Enter the number of players: ";
+        int numberPlayerPlaying;
+        std::cin >> numberPlayerPlaying;
+        if (numberPlayerPlaying < 2 || numberPlayerPlaying > 9) {
+            clearScreen();
+            Art::invalidOption();
+            settingGame();
+        }
+        setNumberPlayerPlaying(numberPlayerPlaying);
+        setDefaultConfig();
+        clearScreen();
+        settingGame();
     } else if (choose == "D" || choose == "d") {
         std::cout << "Restore the default configuration" << std::endl;
     } else if (choose == "E" || choose == "e") {
@@ -147,6 +170,7 @@ ShapeTile Game::getShapeTile(const int index) const {
 
 /* ========= Setter ========= */
 void Game::setNumberPlayerPlaying(const int numberPlayerPlaying) {
+    _players.clear();
     _numberPlayerPlaying = numberPlayerPlaying;
     for (int i = 0; i < numberPlayerPlaying; i++) {
         _players.emplace_back(i+1, _board);
@@ -159,4 +183,13 @@ void Game::setDefaultColor(const int numberPlayerPlaying) {
         _players[i].setColor(static_cast<Color>(i));
     }
 
+}
+
+void Game::setDefaultConfig() {
+    /* ========= default configuration ========= */
+    setDefaultColor(_numberPlayerPlaying);
+    for (auto& player : _players) {
+        player.setName(std::format("Player {} ", player.getIdPlayer()));
+    }
+    _board.setPlayers(&_players);
 }

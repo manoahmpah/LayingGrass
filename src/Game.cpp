@@ -89,14 +89,30 @@ void Game::startGame() {
         default:
             break;
     }
+
 }
 
 int Game::gameLoop() {
+    clearScreen();
     _board.placeRandomlyBonus(getNumberPlayerPlaying());
-    _players[1].placeTiles(5, 5, _shapeTiles[0]);
+    for (auto& player : _players) {
+        clearScreen();
+        displayBoard();
+        int x; int y;
+        std::cout << std::endl << "Enter the x position: ";
+        std::cin >> x;
+        std::cout << "\033[F\033[K";
+        std::cout << "Enter the y position: ";
+        std::cin >> y;
+        player.placeTile(x, y);
+        std::cout << "\033[F\033[K";
+    }
+    clearScreen();
+    displayBoard();
+    std::cout << "Finish" << std::endl;;
+    // _players[2].placeTiles(5, 5, _shapeTiles[0]);
     // _players[0].placeTiles(9, 9, _shapeTiles[1]);
 
-    displayBoard();
     return 0;
 }
 
@@ -146,6 +162,7 @@ void Game::settingGame() {
         }
         setNumberPlayerPlaying(numberPlayerPlaying);
         setDefaultConfig();
+
         clearScreen();
         settingGame();
     } else if (choose == "D" || choose == "d") {

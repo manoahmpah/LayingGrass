@@ -1,3 +1,7 @@
+/**
+* \file Game.cpp
+ * \brief Implementation of the Game class.
+ */
 #include "Game.h"
 #include <unistd.h>
 #include <format>
@@ -8,12 +12,16 @@
 #include <regex>
 #include <thread>
 
-
+/**
+ * \brief Constructor for the Game class.
+ */
 Game::Game() : _numberPlayerPlaying(3), _board(_numberPlayerPlaying) {
     setNumberPlayerPlaying(_numberPlayerPlaying);
     createMussels();
 }
-
+/**
+ * \brief Clears the console screen.
+ */
 void Game::clearScreen() {
 #ifdef _WIN32
     system("cls");
@@ -22,6 +30,9 @@ void Game::clearScreen() {
 #endif
 }
 
+/**
+ * \brief Creates mussels based on the shape tiles.
+ */
 void Game::createMussels() {
     for (const auto& PositionTile : _shapeTiles) {
         MoldTiles moldTile1(PositionTile.getTile());
@@ -29,13 +40,23 @@ void Game::createMussels() {
     }
 }
 
+/**
+ * \brief Displays the mold at the given index.
+ * \param index Index of the mold to display.
+ */
 void Game::displayMold(const int index) const {
     _mussels[index].displayMold();
 }
+/**
+ * \brief Displays the game board.
+ */
 void Game::displayBoard() const {
     _board.displayBoard();
 }
 
+/**
+ * \brief Starts the game.
+ */
 void Game::startGame() {
 
     if (!_isGameRunning) {
@@ -90,9 +111,13 @@ void Game::startGame() {
     }
 
 }
-
+/**
+ * \brief Main game loop.
+ * \return Status code.
+ */
 int Game::gameLoop() {
     clearScreen();
+    _board.placeTiles(0, 0, _players[1].getIdPlayer(), _shapeTiles[95].getTile());
     _board.placeRandomlyBonus(getNumberPlayerPlaying());
     for (auto const& player : _players) {
         clearScreen();
@@ -112,6 +137,9 @@ int Game::gameLoop() {
     return 0;
 }
 
+/**
+ * \brief Settings menu for the game.
+ */
 void Game::settingGame() {
     Art::showPlayers(_players);
     std::string choose;
@@ -149,6 +177,7 @@ void Game::settingGame() {
         for (auto& player : _players) {
             player.setColor(Color::WHITE);
             Art::showPlayer(player);
+            Art::ShowColor();
             std::string chooseColor;
             std::cout << "Enter the color you want to change: ";
             std::cin >> chooseColor;
@@ -177,19 +206,39 @@ void Game::settingGame() {
     }
 }
 
+
 /* ========= Getter ========= */
+/**
+ * \brief Gets the number of players currently playing.
+ * \return Number of players.
+ */
 int Game::getNumberPlayerPlaying() const {
     return _numberPlayerPlaying;
 }
+/**
+ * \brief Gets a player by index.
+ * \param index Index of the player.
+ * \return Player object.
+ */
 Player Game::getPlayer(const int index) const {
     return _players[index];
 }
-
+/**
+ * \brief Gets a shape tile by index.
+ * \param index Index of the shape tile.
+ * \return ShapeTile object.
+ */
 ShapeTile Game::getShapeTile(const int index) const {
     return _shapeTiles[index];
 }
 
+
+
 /* ========= Setter ========= */
+/**
+ * \brief Sets the number of players currently playing.
+ * \param numberPlayerPlaying Number of players.
+ */
 void Game::setNumberPlayerPlaying(const int numberPlayerPlaying) {
     _players.clear();
     _numberPlayerPlaying = numberPlayerPlaying;
@@ -199,6 +248,10 @@ void Game::setNumberPlayerPlaying(const int numberPlayerPlaying) {
     _board.adjustSize(numberPlayerPlaying);
 }
 
+/**
+ * \brief Sets the default color for players.
+ * \param numberPlayerPlaying Number of players.
+ */
 void Game::setDefaultColor(const int numberPlayerPlaying) {
     for (int i = 1; i < numberPlayerPlaying; i++) {
         _players[i].setColor(static_cast<Color>(i));
@@ -206,6 +259,9 @@ void Game::setDefaultColor(const int numberPlayerPlaying) {
 
 }
 
+/**
+ * \brief Sets the default configuration for the game.
+ */
 void Game::setDefaultConfig() {
     /* ========= default configuration ========= */
     setDefaultColor(_numberPlayerPlaying);

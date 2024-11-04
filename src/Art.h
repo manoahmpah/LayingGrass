@@ -15,6 +15,7 @@ public:
 
     static void showPlayers(const std::vector<Player> &players);
     static void showPlayer(const Player &player);
+    static void ShowColor();
 
 private:
     static void space(size_t number);

@@ -168,7 +168,8 @@ void Art::showPlayers(const vector<Player> &players) {
         cout << "║                                    " << players[i].getIdPlayer() << ". " << players[i].getName();
         space(9 - players[i].getName().length());
         i+1 < players.size() ? cout << "    " << players[i+1].getIdPlayer() << ". " << players[i+1].getName() : cout << "       ";
-        space(47 - players[i+1].getName().length());
+        i+1 < players.size() ? space(47 - players[i+1].getName().length()) : space(56 - players[i].getName().length());
+
         cout << "║\n";
 
         /* ========= About Color ========= */
@@ -176,7 +177,8 @@ void Art::showPlayers(const vector<Player> &players) {
         cout << "║                                       " << players[i].getColor() << getColorString(players[i].getColor()) << "\033[0m";
         space(16 - getColorString(players[i].getColor()).length());
         i+1 < players.size() ? cout << players[i+1].getColor() << getColorString(players[i+1].getColor()) << "\033[0m" : cout << "     ";
-        space(47 - getColorString(players[i+1].getColor()).length());
+        i+1 < players.size() ? space(47 - getColorString(players[i+1].getColor()).length()) : space(46 - getColorString(players[i].getColor()).length());
+
         cout << "║\n";
         cout << "║                                                                                                      ║\n";
 
@@ -188,4 +190,11 @@ void Art::space(const size_t number) {
     for (int i = 0; i < number; i++) {
         cout << " ";
     }
+}
+
+void Art::showPlayer(const Player &player) {
+    cout << "╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗\n";
+    cout << "║                        " << player.getName() << player.getColor() << "                                             █████" << "\033[0m" << "                   ║  "<< endl;
+    cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
+
 }

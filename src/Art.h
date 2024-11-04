@@ -14,6 +14,7 @@ public:
     static void invalidOption();
 
     static void showPlayers(const std::vector<Player> &players);
+    static void showPlayer(const Player &player);
 
 private:
     static void space(size_t number);

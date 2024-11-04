@@ -9,7 +9,7 @@
 #include <thread>
 
 
-Game::Game() : _numberPlayerPlaying(2), _board(_numberPlayerPlaying) {
+Game::Game() : _numberPlayerPlaying(3), _board(_numberPlayerPlaying) {
     setNumberPlayerPlaying(_numberPlayerPlaying);
     createMussels();
 }
@@ -49,7 +49,6 @@ void Game::startGame() {
                 sleep(3);
             }
             clearScreen();
-            setNumberPlayerPlaying(9);
             setDefaultConfig();
         }
         sleep(2);
@@ -95,7 +94,7 @@ void Game::startGame() {
 int Game::gameLoop() {
     clearScreen();
     _board.placeRandomlyBonus(getNumberPlayerPlaying());
-    for (auto& player : _players) {
+    for (auto const& player : _players) {
         clearScreen();
         displayBoard();
         int x; int y;
@@ -110,9 +109,6 @@ int Game::gameLoop() {
     clearScreen();
     displayBoard();
     std::cout << "Finish" << std::endl;;
-    // _players[2].placeTiles(5, 5, _shapeTiles[0]);
-    // _players[0].placeTiles(9, 9, _shapeTiles[1]);
-
     return 0;
 }
 
@@ -147,8 +143,16 @@ void Game::settingGame() {
         _players[numPlayer - 1].setName(name);
         clearScreen();
         settingGame();
+
     } else if (choose == "B" || choose == "b") {
-        std::cout << "Enter the player number you want to change the color: ";
+        clearScreen();
+        for (auto& player : _players) {
+            player.setColor(Color::WHITE);
+            Art::showPlayer(player);
+            std::string chooseColor;
+            std::cout << "Enter the color you want to change: ";
+            std::cin >> chooseColor;
+        }
     } else if (choose == "C" || choose == "c") {
         std::cout << "\033[F\033[K";
         std::cout << "\033[F\033[K";

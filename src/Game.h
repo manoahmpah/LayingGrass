@@ -22,6 +22,9 @@ public:
 
     /* ========= Getter ========= */
     [[nodiscard]] int getNumberPlayerPlaying() const;
+
+    void displayTile(int index) const;
+
     [[nodiscard]] Player getPlayer(int index) const;
     [[nodiscard]] ShapeTile getShapeTile(int index) const;
 

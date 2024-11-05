@@ -89,3 +89,11 @@ MoldTiles& MoldTiles::operator=(const MoldTiles& other) {
     }
     return *this;
 }
+
+Cell** MoldTiles::getMold() const {
+    return _mold;
+}
+
+int MoldTiles::getSize() const {
+    return _size;
+}

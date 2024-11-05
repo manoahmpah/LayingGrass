@@ -5,13 +5,17 @@
 #include "Game.h"
 #include <unistd.h>
 #include <format>
-
 #include "Art.h"
-
 #include <iostream>
 #include <regex>
 #include <thread>
 
+#ifdef _WIN32
+    #include <windows.h>
+    #define SET_CONSOLE_UTF8 SetConsoleCP(CP_UTF8); SetConsoleOutputCP(CP_UTF8);
+#else
+    #define SET_CONSOLE_UTF8
+#endif
 /**
  * \brief Constructor for the Game class.
  */
@@ -214,6 +218,24 @@ void Game::settingGame() {
  */
 int Game::getNumberPlayerPlaying() const {
     return _numberPlayerPlaying;
+}
+
+void Game::displayTile(const int index) const {
+#ifdef _WIN32
+    SET_CONSOLE_UTF8
+    #endif
+    for (int i = 0; i < _mussels[index].getSize(); i++) {
+        for (int g = 0; g < 5; g++) {
+            for (int j = 0; j < _mussels[index+g].getSize(); j++) {
+                if (_mussels[index+g].getMold()[i][j].getIsUsed()) {
+                    std::cout << "██ ";
+                } else {
+                    std::cout << "   ";
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
 }
 /**
  * \brief Gets a player by index.

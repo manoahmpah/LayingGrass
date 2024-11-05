@@ -17,6 +17,10 @@ public:
     /* ========= Method ========= */
     void displayMold() const;
 
+    /* ========= Getter ========= */
+    [[nodiscard]] Cell** getMold() const;
+    [[nodiscard]] int getSize() const;
+
 private:
 
     /* ========= Method ========= */

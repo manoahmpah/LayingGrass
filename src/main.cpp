@@ -2,7 +2,8 @@
 
 int main() {
     Game game;
-    game.startGame();
+    game.displayTile(0);
+    // game.startGame();
 
     return 0;
 }

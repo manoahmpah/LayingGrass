@@ -7,6 +7,7 @@
 #include <format>
 #include "Art.h"
 #include <iostream>
+#include <random>
 #include <regex>
 #include <thread>
 
@@ -183,7 +184,40 @@ void Game::settingGame() {
         startGame();
     }
 }
+int Game::countAround(const int x, const int y, const int playerID, std::vector<std::vector<int>>& visitedTiles) const {
+    if (isInVisited(visitedTiles, x, y)) {
+        return 0;
+    }
 
+    visitedTiles.push_back({x, y});
+
+    int count = 1;
+
+    if (_board.getIsUsed(x - 1, y) && _board.getIDPlayer(x - 1, y) == playerID) {
+        count += countAround(x - 1, y, playerID, visitedTiles);
+    }
+    if (_board.getIsUsed(x + 1, y) && _board.getIDPlayer(x + 1, y) == playerID) {
+        count += countAround(x + 1, y, playerID, visitedTiles);
+    }
+    if (_board.getIsUsed(x, y - 1) && _board.getIDPlayer(x, y - 1) == playerID) {
+        count += countAround(x, y - 1, playerID, visitedTiles);
+    }
+    if (_board.getIsUsed(x, y + 1) && _board.getIDPlayer(x, y + 1) == playerID) {
+        count += countAround(x, y + 1, playerID, visitedTiles);
+    }
+
+    return count;
+}
+
+
+bool Game::isInVisited(const std::vector<std::vector<int>>& visitedTiles, int x, int y) {
+    for (const auto& tile : visitedTiles) {
+        if (tile[0] == x && tile[1] == y) {
+            return true;
+        }
+    }
+    return false;
+}
 
 /* ========= Getter ========= */
 int Game::getNumberPlayerPlaying() const {
@@ -255,3 +289,22 @@ void Game::instruction() {
 
 
 /* ========= Test =========  */
+void Game::_testCountTileAround() {
+    setDefaultConfig();
+    const std::vector<std::vector<int>> tiles = {{9, 9}};
+    _players[0].placeTile(tiles[0][0], tiles[0][1]);
+    _players[0].placeTile(8, 9);
+    _players[0].placeTile(8, 8);
+    _players[0].placeTile(9, 8);
+    _players[0].placeTile(9, 10);
+    _players[0].placeTile(10, 9);
+    _players[0].placeTile(11, 9);
+    _players[0].placeTile(12, 9);
+    _players[0].placeTile(13, 8);
+    _players[0].placeTile(0, 0);
+    displayBoard();
+
+    std::cout << std::endl;
+    std::vector<std::vector <int>> visitedTiles;
+    std::cout << "Number of tile around : " << countAround(tiles[0][0], tiles[0][1], _players[0].getIdPlayer(), visitedTiles) << std::endl;
+}

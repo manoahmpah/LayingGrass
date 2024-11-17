@@ -2,6 +2,6 @@
 
 int main() {
     Game game;
-    game.startGame();
+    game._testCountTileAround();
     return 0;
 }

@@ -95,6 +95,14 @@ public:
      */
     [[nodiscard]] int getSize() const;
 
+    /**
+     * \brief Gets the ID of the player in a specific Pos.
+     * \param x X coordinate of the cell.
+     * \param y Y coordinate of the cell.
+     * \return ID of the player.
+     */
+    [[nodiscard]] int getIDPlayer(int x, int y) const;
+
     /* ========= Setter ========= */
     /**
      * \brief Sets ID of player.

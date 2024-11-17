@@ -200,3 +200,7 @@ void Board::setPlayers(std::vector<Player> *players) {
 int Board::getSize() const {
     return _size;
 }
+
+int Board::getIDPlayer(const int x, const int y) const {
+    return _board[x][y].getIDPlayer();
+}

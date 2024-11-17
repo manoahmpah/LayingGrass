@@ -61,6 +61,7 @@ public:
      */
     [[nodiscard]] int getSize() const;
 
+
 private:
 
     /* ========= Méthodes Privées ========= */

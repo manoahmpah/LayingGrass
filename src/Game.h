@@ -84,6 +84,8 @@ public:
    */
     void setDefaultColor(int numberPlayerPlaying);
 
+    void _testCountTileAround();
+
 private:
     explicit Game(int initialPlayerCount);
     /**
@@ -251,6 +253,8 @@ private:
         ShapeTile({{0, 1},{1, 0},{1, 1},{2, 0}, {3, 0}, {3, 1}}),
     };
 
+    [[nodiscard]] int countAround(int x, int y, int playerID, std::vector<std::vector<int>>& visitedTiles) const;
+    static bool isInVisited(const std::vector<std::vector<int>>& visitedTiles, int x, int y);
 };
 
 

@@ -5,22 +5,20 @@
 #define SET_CONSOLE_UTF8
 #endif
 #include "MoldTiles.h"
-
 #include <iostream>
+#include "Color.h"
 
 /* ========= Constructor & Destructor ========= */
 MoldTiles::MoldTiles(const std::vector <std::vector <int> > &tiles) : _mold(nullptr), _size(7) {
     createMold();
     addTiles(tiles);
 }
-
 MoldTiles::~MoldTiles() {
     for (int i = 0; i < _size; i++) {
         delete[] _mold[i];
     }
     delete[] _mold;
 }
-
 
 /* ========= Method ========= */
 void MoldTiles::createMold() {
@@ -50,14 +48,12 @@ void MoldTiles::addTile(const int x, const int y) const {
     }
     _mold[x][y].setUsed(true);
 }
-
 void MoldTiles::addTiles(const std::vector <std::vector <int> > &tiles) const {
     for (const auto & tile : tiles) {
         addTile(tile[0], tile[1]);
+        _mold[tile[0]][tile[1]].setTilesPlayer(true);
     }
 }
-
-
 MoldTiles::MoldTiles(const MoldTiles& other) : _size(other._size) {
     _mold = new Cell*[_size];
     for (int i = 0; i < _size; ++i) {
@@ -67,7 +63,6 @@ MoldTiles::MoldTiles(const MoldTiles& other) : _size(other._size) {
         }
     }
 }
-
 MoldTiles& MoldTiles::operator=(const MoldTiles& other) {
     if (this == &other) {
         return *this;
@@ -90,10 +85,10 @@ MoldTiles& MoldTiles::operator=(const MoldTiles& other) {
     return *this;
 }
 
+/* ========= Getter ========= */
 Cell** MoldTiles::getMold() const {
     return _mold;
 }
-
 int MoldTiles::getSize() const {
     return _size;
 }

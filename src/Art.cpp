@@ -210,3 +210,12 @@ void Art::ShowColor() {
     cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝\n";
 
 }
+
+void Art::showTurnOf(const Player &player) {
+    cout << "╔══════════════════════════════════════════════════════════════╗\n";
+    cout << "║                It's the turn of " << player.getName() << " (" << player.getColor() << getColorString(player.getColor()) << "\033[0m" << ")";
+    space(26 - player.getName().length() - getColorString(player.getColor()).length());
+    cout << "║\n";
+    cout << "╚══════════════════════════════════════════════════════════════╝\n";
+
+}

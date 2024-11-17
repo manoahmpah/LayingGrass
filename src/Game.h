@@ -7,42 +7,152 @@
 #include "Player.h"
 #include "ShapeTile.h"
 
+/**
+ * \brief Class for the Game object.
+ * \note all the game logic is implemented in this class, we can find
+ * players & Tiles but also the starting point of what we can see in the
+ * command-line tool.
+ */
 class Game {
 public:
+    /**
+ * \brief Constructor for the Game class.
+    */
     Game();
-
+    /**
+ * \brief Creates mussels based on the shape tiles.
+    */
     void createMussels();
-    void displayMold(int index) const;
-    void displayBoard() const;
+   /**
+* \brief Starts the game.
+   */
     void startGame();
 
-    /* Not yet implement */
+    /* ========= Display ========= */
+    /**
+ * \brief Displays the mold at the given index.
+ * \param index Index of the mold to display.
+      */
+    void displayMold(int index) const;
+   /**
+* \brief Displays the game board.
+   */
+    void displayBoard() const;
+   /**
+ * \brief Displays the first five tiles.
+ * \param index Index of the first tile to display.
+   */
+    void displayFiveTile(int index) const;
+   /**
+ * \brief Main game loop.
+ * \return Status code.
+   */
     int gameLoop();
+   /**
+ * \brief Settings menu for the game.
+    */
     void settingGame();
 
     /* ========= Getter ========= */
+    /**
+* \brief Gets the number of players currently playing.
+* \return Number of players.
+    */
     [[nodiscard]] int getNumberPlayerPlaying() const;
-
-    void displayTile(int index) const;
-
+    /**
+     * \brief Gets a player by index.
+     * \param index Index of the player.
+     * \return Player object.
+     */
     [[nodiscard]] Player getPlayer(int index) const;
+    /**
+ * \brief Gets a shape tile by index.
+ * \param index Index of the shape tile.
+ * \return ShapeTile object.
+    */
     [[nodiscard]] ShapeTile getShapeTile(int index) const;
 
     /* ========= Setter ========= */
+    /**
+ * \brief Sets the number of players currently playing.
+ * \param numberPlayerPlaying Number of players.
+   */
     void setNumberPlayerPlaying(int numberPlayerPlaying);
+    /**
+ * \brief Sets the default color for players.
+ * \param numberPlayerPlaying Number of players.
+   */
     void setDefaultColor(int numberPlayerPlaying);
 
 private:
     explicit Game(int initialPlayerCount);
+    /**
+ * \brief Clears the console screen.
+ *
+ * \note This method is platform dependent. It uses the `cls` command
+ * on Windows and the `clear` command on Unix-based systems.
+    */
     static void clearScreen();
-    void setDefaultConfig();
+    /**
+     * \brief Displays the landing page.
+     */
+    void loader();
+    /**
+ * \brief Verifies the input on the landing page.
+ * \param choose Input to verify.
+    */
+    void verifyInputLandingPage(const std::string &choose);
+    /**
+     * \brief Displays the instructions.
+     */
+    void instruction();
 
+    /* ========= Setter ========= */
+    /**
+ * \brief Sets the default configuration for the game.
+ *
+ * \note The default configuration includes setting the color of players
+ * and setting the name of players (Player x). The default configuration
+ * also includes set a reference in _board of players. In board, we used it
+ * to display the color of the player in the Board.
+    */
+    void setDefaultConfig();
+    /**
+     * \brief The number of players currently in the game.
+     */
     int _numberPlayerPlaying;
+    /**
+     * \brief Collection of mold tiles (MoldTiles) used in the game.
+     * \note The mussels is a list of mussels.
+     * mussel is used to set the orientation of tiles.
+     */
     std::vector<MoldTiles> _mussels;
+    /**
+     * \brief Collection of players (Player) in the game.
+     */
     std::vector<Player> _players;
+    /**
+     * \brief Game board (Board) object.
+     */
     Board _board;
+    /**
+     * \brief Collection of shape tiles (ShapeTile) used in the game.
+     *
+     * \sa `loader()`
+     * \note This attribute is used for the begging of the game.
+     * The Game will starting with the loader in `startGame()`
+     * and if in the game we need to refer to `startGame()` we no
+     * longer need to call the loader.
+     */
     bool _isGameRunning = false;
- std::vector<ShapeTile> _shapeTiles = {
+    /**
+ * \brief Collection of shape tiles available in the game.
+ * \note This vector contains the positions of the tiles.
+ * These tiles are arranged starting from the top left.
+ * This class not only stores these positions but also allows
+ * checking if a tile is available or already placed.
+     */
+    std::vector<ShapeTile> _shapeTiles = {
         ShapeTile({{0, 0},{1, 0},{1, 1},{1, 2}}),
         ShapeTile({{0, 1},{1, 1},{2, 0},{2, 1}, {2, 2}}),
         ShapeTile({{0, 1},{1, 0},{1, 1},{1, 2}, {2, 1}}),

@@ -156,7 +156,7 @@ std::ostream &operator<<(std::ostream &os, const Board &board) {
         for (int j = 0; j < board._size; j++) {
             if (board._board[i][j].getIsUsed()) {
                 if (board._board[i][j].getIsTilesPlayer()) {
-                    os << (*board._players)[board._board[i][j].getIDPlayer()-1].getColor() << "███" << "\033[0m";
+                    os << (*board._players)[board._board[i][j].getIDPlayer()-1].getColor() << "▄▄ " << "\033[0m";
                 } else if (board._board[i][j].getBonusTileExchange()) {
                     os << " ↺ ";
                 } else if (board._board[i][j].getBonusStone()) {
@@ -165,7 +165,7 @@ std::ostream &operator<<(std::ostream &os, const Board &board) {
                     os << "🕳️ ";
                 }
             } else {
-                os << " • ";
+                os << " . ";
             }
         }
         os << std::endl;
@@ -195,4 +195,8 @@ void Board::setIdPlayer(const int x, const int y, const int idPlayer) const {
 }
 void Board::setPlayers(std::vector<Player> *players) {
     _players = players;
+}
+
+int Board::getSize() const {
+    return _size;
 }

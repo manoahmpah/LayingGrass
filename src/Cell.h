@@ -12,7 +12,18 @@ public:
      * @brief Constructeur par défaut initialisant la cellule comme non utilisée et sans bonus.
      */
     Cell();
+    /**
+* @brief Constructeur de copie.
+* @param other L'objet `Cell` à copier.
+*/
+ Cell(const Cell& other);
 
+ /**
+  * @brief Opérateur d'affectation par copie.
+  * @param other L'objet `Cell` à copier.
+  * @return Référence à l'instance actuelle après la copie.
+  */
+ Cell& operator=(const Cell& other);
     /* ========= Getter ========= */
 
     /**
@@ -92,7 +103,7 @@ public:
 private:
     bool _isUsed;
     bool _isTilesPlayer;
-    int _idPlayer;
+    int _idPlayer{};
 
     /**
      * @struct Bonus

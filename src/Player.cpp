@@ -7,6 +7,15 @@ Player::Player(const int idPlayer, Board& board) : _idPlayer(idPlayer), _name("N
     _board = board;
 };
 
+Player::Player(const Player& other)
+    : _idPlayer(other._idPlayer),     // Copie de l'ID du joueur
+      _name(other._name),             // Copie du nom du joueur
+      _board(other._board),           // Garde la même référence de board
+      _color(other._color)            // Copie de la couleur du joueur
+{
+    // Pas d'autres actions nécessaires
+}
+
 void Player::placeTile(const int x, const int y) const {
     _board.placeTile(x, y, _idPlayer);
     _board.setIdPlayer(x, y , _idPlayer);

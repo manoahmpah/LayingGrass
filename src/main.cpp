@@ -2,6 +2,6 @@
 
 int main() {
     Game game;
-    game._testCountTileAround();
+    game._testCopyBoard();
     return 0;
 }

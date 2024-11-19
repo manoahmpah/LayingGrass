@@ -22,8 +22,18 @@ Board::Board(const int numberPlayerPlaying) : _size(20) {
     createBoard();
 
 }
+Board::Board(const Board &other) : _size(other._size), _players(other._players) {
+    createBoard();
+    for (int i = 0; i < _size; i++) {
+        for (int j = 0; j < _size; j++) {
+            _board[i][j] = other._board[i][j];
+        }
+    }
 
-Board& Board::operator=(const Board &other) {
+}
+
+
+Board &Board::operator=(const Board &other) {
     if (this == &other) {
         return *this;
     }
@@ -33,8 +43,9 @@ Board& Board::operator=(const Board &other) {
     }
     delete[] _board;
 
-    _size = other._size;
+    delete _players;
 
+    _size = other._size;
     createBoard();
     for (int i = 0; i < _size; i++) {
         for (int j = 0; j < _size; j++) {
@@ -42,8 +53,10 @@ Board& Board::operator=(const Board &other) {
         }
     }
 
+
     return *this;
 }
+
 
 void Board::createBoard() {
     _board = new Cell*[_size];
@@ -59,6 +72,7 @@ Board::~Board() {
     delete[] _board;
 }
 
+
 void Board::adjustSize(const int numberPlayerPlaying) {
     if (numberPlayerPlaying >= 5 && numberPlayerPlaying <= 9) {
         _size = 30;
@@ -67,7 +81,6 @@ void Board::adjustSize(const int numberPlayerPlaying) {
     } else {
         _size = 20;
     }
-    createBoard();
 }
 void Board::displayBoard() const {
     std::cout << *this;

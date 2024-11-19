@@ -20,6 +20,12 @@ public:
      * \param board Game board object.
      */
     Player(int idPlayer, Board& board);
+
+    /**
+     * \brief Copy constructor for the Player class.
+     * \param other Player object to copy.
+     */
+    Player(const Player& other);
     /**
      * \brief Places a tile on the board.
      * \param x X coordinate of the tile.

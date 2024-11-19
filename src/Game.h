@@ -86,6 +86,8 @@ public:
 
     void _testCountTileAround();
 
+    void _testCopyBoard() const;
+
 private:
     explicit Game(int initialPlayerCount);
     /**
@@ -147,6 +149,8 @@ private:
      * longer need to call the loader.
      */
     bool _isGameRunning = false;
+
+    std::vector<std::vector<int>> _startTiles;
     /**
  * \brief Collection of shape tiles available in the game.
  * \note This vector contains the positions of the tiles.
@@ -253,8 +257,11 @@ private:
         ShapeTile({{0, 1},{1, 0},{1, 1},{2, 0}, {3, 0}, {3, 1}}),
     };
 
-    [[nodiscard]] int countAround(int x, int y, int playerID, std::vector<std::vector<int>>& visitedTiles) const;
+    [[nodiscard]] static int countAround(int x, int y, int playerID, std::vector<std::vector<int>> &visitedTiles, const Board& board);
+    [[nodiscard]] static int countAllTilesOfPlayer(int playerID, const Board &board) ;
     static bool isInVisited(const std::vector<std::vector<int>>& visitedTiles, int x, int y);
+
+    static bool isPlaceCorrectly(int x, int y, int playerID, std::vector<std::vector<int>> &visitedTiles, const Board &board) ;
 };
 
 

@@ -69,7 +69,7 @@ void Game::startGame() {
     verifyInputLandingPage(choose);
 
     switch (std::stoi(choose)) {
-        case 1: { gameLoop(); break; };
+        case 1: { gameLoop(); break; }
         case 2: { instruction(); break; }
         case 3: { clearScreen(); settingGame(); break; }
         default: { exit(0); }
@@ -77,43 +77,88 @@ void Game::startGame() {
 
 }
 int Game::gameLoop() {
+    Board boardVerify(_numberPlayerPlaying);
+
     clearScreen();
     _board.placeRandomlyBonus(getNumberPlayerPlaying());
+
+    /* Place start tiles on the board */
     for (auto const& player : _players) {
+    clearScreen();
+    Art::showTurnOf(player);
+    int y = -1;
+    char letter = ' ';
+    int x = 0;
+    displayBoard();
+
+    while (y < 1 || y > _board.getSize() || toupper(letter) < 'A' || toupper(letter) > static_cast<char>(_board.getSize() + 'A' - 1)) {
         clearScreen();
-        Art::showTurnOf(player);
         displayBoard();
-        int y; char letter;
-        std::cout << std::endl << "Enter a letter or character between A to " << static_cast<char>(_board.getSize() + 64) <<" : ";
+        std::cout << "\nEnter a column letter (A to " << static_cast<char>(_board.getSize() + 'A' - 1) << "): ";
         std::cin >> letter;
-        const int x = toupper(letter) - 64;
-        std::cout << "\033[F\033[K";
-        std::cout << "Enter the y position: ";
+        letter = toupper(letter);
+
+        if (letter >= 'A' && letter <= static_cast<char>(_board.getSize() + 'A' - 1)) {
+            x = letter - 'A' + 1;
+            std::cout << "\033[F\033[K";
+        } else {
+            continue;
+        }
+
+        std::cout << "Enter the row number (1 to " << _board.getSize() << "): ";
         std::cin >> y;
-        player.placeTile(x-1, y-1);
-        std::cout << "\033[F\033[K";
+
+        if (y < 1 || y > _board.getSize()) {
+            std::cout << "Invalid row number. Please try again.\n";
+        }
     }
 
-    for (int i = 0; i < 3; i++) {
-        clearScreen();
-        displayFiveTile(i);
-        std::cout << "\033[F\033[K";
-        std::cout << "\033[F\033[K";
-        displayBoard();
-        std::cout << std::endl;
-        std::cout << "choisir un moule >";
-        int chooseMold; int x; int y;
-        std::cin >> chooseMold;
-        std::cout << "\033[F\033[K";
-        std::cout << "Enter the x position: ";
-        std::cin >> x;
-        std::cout << "\033[F\033[K";
-        std::cout << "Enter the y position: ";
-        std::cin >> y;
-        _board.placeTiles(x, y, _players[i].getIdPlayer(), _shapeTiles[(chooseMold + i)-1].getTile());
+    _startTiles.push_back({x, y});
+    player.placeTile(x - 1, y - 1);
+    clearScreen();
+}
 
-        sleep(1);
+/* Place Mussels */
+boardVerify = _board;
+for (int i = 0; i < _players.size(); i++) {
+    clearScreen();
+    displayFiveTile(i);
+    displayBoard();
+    std::cout << "\nChoose a mold: ";
+    int chooseMold;
+    std::cin >> chooseMold;
+
+    int x = -1, y = -1;
+    while (x < 1 || x > _board.getSize() || y < 1 || y > _board.getSize()) {
+        std::cout << "Enter the column letter (A to " << static_cast<char>(_board.getSize() + 'A' - 1) << "): ";
+        char letter;
+        std::cin >> letter;
+        letter = toupper(letter);
+
+        if (letter >= 'A' && letter <= static_cast<char>(_board.getSize() + 'A' - 1)) {
+            x = letter - 'A' + 1; // Convertir la lettre en indice numérique
+        } else {
+            std::cout << "Invalid column letter. Please try again.\n";
+            continue;
+        }
+
+        std::cout << "Enter the row number (1 to " << _board.getSize() << "): ";
+        std::cin >> y;
+
+        if (y < 1 || y > _board.getSize()) {
+            std::cout << "Invalid row number. Please try again.\n";
+        }
     }
+    boardVerify.displayBoard();
+    return 0;
+    std::vector<std::vector<int>> visitedTiles;
+    boardVerify.placeTiles(x - 1, y - 1, _players[i].getIdPlayer(), _shapeTiles[(chooseMold + i) - 1].getTile());
+    isPlaceCorrectly(_startTiles[i][0], _startTiles[i][1], _players[i].getIdPlayer(), visitedTiles, boardVerify) ? std::cout << "Correctly placed" : std::cout << "Incorrectly placed";
+
+    return 0;
+    sleep(1);
+}
+
     std::cout << std::endl;
     displayBoard();
 
@@ -184,33 +229,41 @@ void Game::settingGame() {
         startGame();
     }
 }
-int Game::countAround(const int x, const int y, const int playerID, std::vector<std::vector<int>>& visitedTiles) const {
+int Game::countAround(const int x, const int y, const int playerID, std::vector<std::vector<int>>& visitedTiles, const Board& board) {
     if (isInVisited(visitedTiles, x, y)) {
         return 0;
     }
-
     visitedTiles.push_back({x, y});
 
     int count = 1;
 
-    if (_board.getIsUsed(x - 1, y) && _board.getIDPlayer(x - 1, y) == playerID) {
-        count += countAround(x - 1, y, playerID, visitedTiles);
+    if ( x-1 >= 0 && board.getIsUsed(x - 1, y) && board.getIDPlayer(x - 1, y) == playerID) {
+        count += countAround(x - 1, y, playerID, visitedTiles, board);
     }
-    if (_board.getIsUsed(x + 1, y) && _board.getIDPlayer(x + 1, y) == playerID) {
-        count += countAround(x + 1, y, playerID, visitedTiles);
+    if (x+1 < board.getSize() && board.getIsUsed(x + 1, y) && board.getIDPlayer(x + 1, y) == playerID) {
+        count += countAround(x + 1, y, playerID, visitedTiles, board);
     }
-    if (_board.getIsUsed(x, y - 1) && _board.getIDPlayer(x, y - 1) == playerID) {
-        count += countAround(x, y - 1, playerID, visitedTiles);
+    if ( board.getIsUsed(x, y - 1) && board.getIDPlayer(x, y - 1) == playerID) {
+        count += countAround(x, y - 1, playerID, visitedTiles, board);
     }
-    if (_board.getIsUsed(x, y + 1) && _board.getIDPlayer(x, y + 1) == playerID) {
-        count += countAround(x, y + 1, playerID, visitedTiles);
+    if (board.getIsUsed(x, y + 1) && board.getIDPlayer(x, y + 1) == playerID) {
+        count += countAround(x, y + 1, playerID, visitedTiles, board);
     }
 
     return count;
 }
-
-
-bool Game::isInVisited(const std::vector<std::vector<int>>& visitedTiles, int x, int y) {
+int Game::countAllTilesOfPlayer(const int playerID, const Board& board) {
+    int numberTiles = 0;
+    for (int i = 0; i < board.getSize(); i++) {
+        for (int j = 0; j < board.getSize(); j++) {
+            if (board.getIsUsed(i, j) && board.getIDPlayer(i, j) == playerID) {
+                numberTiles++;
+            }
+        }
+    }
+    return numberTiles;
+}
+bool Game::isInVisited(const std::vector<std::vector<int>>& visitedTiles, const int x, const int y) {
     for (const auto& tile : visitedTiles) {
         if (tile[0] == x && tile[1] == y) {
             return true;
@@ -218,7 +271,15 @@ bool Game::isInVisited(const std::vector<std::vector<int>>& visitedTiles, int x,
     }
     return false;
 }
+bool Game::isPlaceCorrectly(const int x, const int y, const int playerID, std::vector<std::vector<int>>& visitedTiles, const Board& board) {
+    const int aroundCount = countAround(x, y, playerID, visitedTiles, board);
+    const int totalTiles = countAllTilesOfPlayer(playerID, board);
 
+    std::cout << "Count around: " << aroundCount << std::endl;
+    std::cout << "Count all tiles of player: " << totalTiles << std::endl;
+
+    return aroundCount == totalTiles;
+}
 /* ========= Getter ========= */
 int Game::getNumberPlayerPlaying() const {
     return _numberPlayerPlaying;
@@ -289,22 +350,31 @@ void Game::instruction() {
 
 
 /* ========= Test =========  */
-void Game::_testCountTileAround() {
-    setDefaultConfig();
-    const std::vector<std::vector<int>> tiles = {{9, 9}};
-    _players[0].placeTile(tiles[0][0], tiles[0][1]);
-    _players[0].placeTile(8, 9);
-    _players[0].placeTile(8, 8);
-    _players[0].placeTile(9, 8);
-    _players[0].placeTile(9, 10);
-    _players[0].placeTile(10, 9);
-    _players[0].placeTile(11, 9);
-    _players[0].placeTile(12, 9);
-    _players[0].placeTile(13, 8);
-    _players[0].placeTile(0, 0);
-    displayBoard();
+    void Game::_testCountTileAround() {
+        setDefaultConfig();
+        const std::vector<std::vector<int>> startTiles = {{9, 9}};
+        _players[0].placeTile(startTiles[0][0], startTiles[0][1]);
+        _players[0].placeTile(8, 9);
+        _players[0].placeTile(8, 8);
+        _players[0].placeTile(9, 8);
+        _players[0].placeTile(9, 10);
+        _players[0].placeTile(10, 9);
+        _players[0].placeTile(11, 9);
+        _players[1].placeTile(12, 9);
 
-    std::cout << std::endl;
-    std::vector<std::vector <int>> visitedTiles;
-    std::cout << "Number of tile around : " << countAround(tiles[0][0], tiles[0][1], _players[0].getIdPlayer(), visitedTiles) << std::endl;
+        displayBoard();
+
+        std::cout << std::endl;
+        std::vector<std::vector <int>> visitedTiles;
+        isPlaceCorrectly(9, 9, 1, visitedTiles, _board) ?
+        std::cout << "Respect low" : std::cout << "Do not respect low";
+
+        visitedTiles.clear();
+
+    }
+
+void Game::_testCopyBoard() const {
+    _board.placeTile(0, 0, 1);
+    const Board board2 = _board;
+    board2.displayBoard();
 }

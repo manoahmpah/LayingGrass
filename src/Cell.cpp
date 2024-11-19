@@ -1,8 +1,21 @@
 #include "Cell.h"
 
-Cell::Cell() : _isUsed(false), _isTilesPlayer(false) {
+Cell::Cell() : _isUsed(false), _isTilesPlayer(false), _idPlayer(-1) {
+    _bonus.tileExchange = false;
+    _bonus.stone = false;
+    _bonus.robbery = false;
 }
+Cell::Cell(const Cell& other) = default;
 
+Cell& Cell::operator=(const Cell& other) {
+    if (this != &other) {
+        _isUsed = other._isUsed;
+        _isTilesPlayer = other._isTilesPlayer;
+        _idPlayer = other._idPlayer;
+        _bonus = other._bonus;
+    }
+    return *this;
+}
 
 /* ========= Getter ========= */
 bool Cell::getIsUsed() const {

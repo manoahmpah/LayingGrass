@@ -28,6 +28,13 @@ public:
      */
     Board(const Board &other);
     /**
+     * \brief Copy assignment operator for the Board class.
+     * \param other Board object to copy.
+     * \return Copied Board object.
+     */
+   
+     Board &operator=(const Board &other);
+    /**
      * \brief Destructor for the Board class.
      */
     ~Board();
@@ -60,12 +67,7 @@ public:
      * \param tiles Tiles to place.
      */
     void placeTiles(int x, int y, int idPlayer, const std::vector<std::vector<int>> &tiles) const;
-    /**
-     * \brief Copy assignment operator for the Board class.
-     * \param other Board object to copy.
-     * \return Copied Board object.
-     */
-    Board &operator=(const Board &other);
+
 
     /* ========= Getter ========= */
     /**

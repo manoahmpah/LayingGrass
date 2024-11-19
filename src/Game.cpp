@@ -38,23 +38,37 @@ void Game::createMussels() {
 void Game::displayMold(const int index) const {
     _mussels[index].displayMold();
 }
-void Game::displayFiveTile(const int index) const {
-#ifdef _WIN32
-    SET_CONSOLE_UTF8
-    #endif
-    for (int i = 0; i < _mussels[index].getSize(); i++) {
-        for (int g = 0; g < 5; g++) {
-            for (int j = 0; j < _mussels[index+g].getSize(); j++) {
-                if (_mussels[index+g].getMold()[i][j].getIsUsed()) {
-                    std::cout << "▄▄ ";
+void Game::displayFiveTile(const int startIndex) const {
+    int displayed = 0; // Nombre de tuiles affichées
+    constexpr int maxToDisplay = 5;
+
+    for (int i = startIndex; i < _mussels.size() && displayed < maxToDisplay; i++) {
+        if (_mussels[i].isUsed()) { // Si la tuile est déjà utilisée, passer à la suivante
+            continue;
+        }
+
+        std::cout << "Tile " << displayed + 1 << ":\n";
+
+        for (int row = 0; row < _mussels[i].getSize(); row++) {
+            for (int col = 0; col < _mussels[i].getSize(); col++) {
+                if (_mussels[i].getMold()[row][col].getIsUsed()) {
+                    std::cout << "██ ";
                 } else {
                     std::cout << "   ";
                 }
             }
+            std::cout << std::endl;
         }
         std::cout << std::endl;
+
+        displayed++;
+    }
+
+    if (displayed == 0) {
+        std::cout << "No tiles available to display." << std::endl;
     }
 }
+
 void Game::displayBoard() const {
     _board.displayBoard();
 }
@@ -77,11 +91,11 @@ void Game::startGame() {
 
 }
 int Game::gameLoop() {
+
     Board boardVerify(_numberPlayerPlaying);
 
     clearScreen();
     _board.placeRandomlyBonus(getNumberPlayerPlaying());
-
     /* Place start tiles on the board */
     for (auto const& player : _players) {
     clearScreen();
@@ -281,16 +295,54 @@ bool Game::isPlaceCorrectly(const int x, const int y, const int playerID, std::v
     return aroundCount == totalTiles;
 }
 /* ========= Getter ========= */
+/**
+ * \brief Gets the number of players currently playing.
+ * \return Number of players.
+ */
 int Game::getNumberPlayerPlaying() const {
     return _numberPlayerPlaying;
 }
+
+void Game::displayTile(const int index) const {
+#ifdef _WIN32
+    SET_CONSOLE_UTF8
+    #endif
+    for (int i = 0; i < _mussels[index].getSize(); i++) {
+        for (int g = 0; g < 5; g++) {
+            for (int j = 0; j < _mussels[index+g].getSize(); j++) {
+                if (_mussels[index+g].getMold()[i][j].getIsUsed()) {
+                    std::cout << "██ ";
+                } else {
+                    std::cout << "   ";
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
+}
+/**
+ * \brief Gets a player by index.
+ * \param index Index of the player.
+ * \return Player object.
+ */
 Player Game::getPlayer(const int index) const {
     return _players[index];
 }
+/**
+ * \brief Gets a shape tile by index.
+ * \param index Index of the shape tile.
+ * \return ShapeTile object.
+ */
 ShapeTile Game::getShapeTile(const int index) const {
     return _shapeTiles[index];
 }
 
+
+/* ========= Setter ========= */
+/**
+ * \brief Sets the number of players currently playing.
+ * \param numberPlayerPlaying Number of players.
+ */
 
 /* ========= Setter ========= */
 void Game::setNumberPlayerPlaying(const int numberPlayerPlaying) {
@@ -301,12 +353,21 @@ void Game::setNumberPlayerPlaying(const int numberPlayerPlaying) {
     }
     _board.adjustSize(numberPlayerPlaying);
 }
+
+/**
+ * \brief Sets the default color for players.
+ * \param numberPlayerPlaying Number of players.
+ */
 void Game::setDefaultColor(const int numberPlayerPlaying) {
     for (int i = 1; i < numberPlayerPlaying; i++) {
         _players[i].setColor(static_cast<Color>(i));
     }
 
 }
+
+/**
+ * \brief Sets the default configuration for the game.
+ */
 void Game::setDefaultConfig() {
     /* ========= default configuration ========= */
     setDefaultColor(_numberPlayerPlaying);

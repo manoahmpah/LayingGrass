@@ -38,12 +38,19 @@ public:
 * \brief Displays the game board.
    */
     void displayBoard() const;
-   /**
+
+/**
  * \brief Displays the first five tiles.
+ * \param startIndex
  * \param index Index of the first tile to display.
    */
-    void displayFiveTile(int index) const;
-   /**
+    void displayFiveTile(int startIndex) const;
+    void displayTiles() const;
+    void rotateTile(int index) const;
+
+    void flipTile(int index) const;
+
+/**
  * \brief Main game loop.
  * \return Status code.
    */
@@ -59,6 +66,9 @@ public:
 * \return Number of players.
     */
     [[nodiscard]] int getNumberPlayerPlaying() const;
+
+    void displayTile(int index) const;
+
     /**
      * \brief Gets a player by index.
      * \param index Index of the player.

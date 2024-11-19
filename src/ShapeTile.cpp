@@ -1,4 +1,5 @@
 #include "ShapeTile.h"
+
 ShapeTile::ShapeTile(const std::vector <std::vector <int> > &tile) : _tile(tile), _isPosed(false) {}
 
 bool ShapeTile::getIsPosed() const {

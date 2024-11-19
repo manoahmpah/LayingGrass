@@ -6,6 +6,8 @@
 #endif
 #include "MoldTiles.h"
 #include <iostream>
+#include <memory>
+
 #include "Color.h"
 
 /* ========= Constructor & Destructor ========= */
@@ -21,7 +23,7 @@ MoldTiles::~MoldTiles() {
 }
 
 /* ========= Method ========= */
-void MoldTiles::createMold() {
+void MoldTiles::createMold() const {
     _mold = new Cell *[_size];
     for (int i = 0; i < _size; i++) {
         _mold[i] = new Cell[_size];
@@ -92,3 +94,52 @@ Cell** MoldTiles::getMold() const {
 int MoldTiles::getSize() const {
     return _size;
 }
+
+void MoldTiles::rotateMold() {
+    auto rotatedMold = std::make_unique<std::unique_ptr<Cell[]>[]>(_size);
+    for (int i = 0; i < _size; ++i) {
+        rotatedMold[i] = std::make_unique<Cell[]>(_size);
+    }
+    for (int i = 0; i < _size; ++i) {
+        for (int j = 0; j < _size; ++j) {
+            rotatedMold[j][_size - 1 - i] = _mold[i][j];
+        }
+    }
+    // Libérer la mémoire de l’ancien _mold
+    if (_mold != nullptr) {
+        for (int i = 0; i < _size; ++i) {
+            delete[] _mold[i];
+        }
+        delete[] _mold;
+    }
+    _mold = new Cell*[_size];
+    for (int i = 0; i < _size; ++i) {
+        _mold[i] = rotatedMold[i].release();
+    }
+}
+
+// MoldTiles.cpp
+void MoldTiles::flipMold() const {
+    if (_mold == nullptr || _size <= 0) {
+        throw std::runtime_error("Mold is not initialized properly");
+    }
+
+    for (int i = 0; i < _size; ++i) {
+        for (int j = 0; j < _size / 2; ++j) {
+            std::swap(_mold[i][j], _mold[i][_size - 1 - j]);
+        }
+    }
+}
+bool MoldTiles::isUsed() const {
+    // Parcourt toutes les cellules du _mold
+    for (int i = 0; i < getSize(); i++) {
+        for (int j = 0; j < getSize(); j++) {
+            // Si au moins une cellule est marquée comme utilisée
+            if (_mold[i][j].getIsUsed()) {
+                return true; // La tuile entière est considérée comme utilisée
+            }
+        }
+    }
+    return false; // Toutes les cellules sont inutilisées
+}
+

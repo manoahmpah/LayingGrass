@@ -2,6 +2,7 @@
 #define MOLDTILES_H
 
 #include <vector>
+
 #include "Cell.h"
 
 /**
@@ -39,6 +40,8 @@ public:
      */
     ~MoldTiles();
 
+    void createMold() const;
+
     /* ========= Méthode ========= */
 
     /**
@@ -46,6 +49,8 @@ public:
      *        Implémentation détaillée dans le fichier source.
      */
     void displayMold() const;
+
+    void displayFirstFiveTiles() const;
 
     /* ========= Getter ========= */
 
@@ -61,14 +66,18 @@ public:
      */
     [[nodiscard]] int getSize() const;
 
+    void rotateMold();
 
-private:
+    void flipMold() const;
+
+    bool isUsed() const;
+
+   private:
 
     /* ========= Méthodes Privées ========= */
     /**
      * @brief Crée le modèle de tuiles initial, en allouant la mémoire nécessaire.
      */
-    void createMold();
 
     /**
      * @brief Ajoute un ensemble de tuiles au modèle.
@@ -84,7 +93,7 @@ private:
     void addTile(int x, int y) const;
 
     /* ========= Attributs Privés ========= */
-    Cell **_mold;
+    mutable Cell **_mold;
     int _size;
 };
 

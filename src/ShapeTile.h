@@ -14,7 +14,7 @@ public:
      * \brief Constructor for the ShapeTile class.
      * \param tile Of vector of int. It's the coordinate of the tile.
      */
-    explicit ShapeTile(const std::vector <std::vector <int> > &tile);
+    explicit ShapeTile(const std::vector<std::vector<int>>& tile);
 
     /* ========= Getter ========= */
     /**
@@ -28,7 +28,7 @@ public:
      */
     [[nodiscard]] std::vector<std::vector<int>> getTile() const;
 
-    /* ========= Getter ========= */
+    /* ========= Setter ========= */
     /**
      * \brief Sets the state of the tile.
      * \param isPosed True if the tile is posed, false otherwise.
@@ -36,7 +36,7 @@ public:
     void setPosed(bool isPosed);
 
 private:
-    std::vector<std::vector <int> > _tile;
+    std::vector<std::vector<int>> _tile;
     bool _isPosed;
 };
 

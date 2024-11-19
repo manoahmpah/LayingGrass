@@ -2,6 +2,7 @@
 
 int main() {
     Game game;
-    game._testCopyBoard();
+    game.displayFiveTile(0);
+
     return 0;
 }

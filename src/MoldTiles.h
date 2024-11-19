@@ -66,7 +66,7 @@ public:
      */
     [[nodiscard]] int getSize() const;
 
-    void rotateMold();
+    void rotateMold() const;
 
     void flipMold() const;
 

@@ -38,6 +38,14 @@ void Game::createMussels() {
 void Game::displayMold(const int index) const {
     _mussels[index].displayMold();
 }
+void Game::flipTile(int index) const {
+    _mussels[index].flipMold();
+}
+
+void Game::rotateTile(int index) const {
+    _mussels[index].rotateMold();
+}
+
 void Game::displayFiveTile(const int index) const {
 #ifdef _WIN32
     SET_CONSOLE_UTF8
@@ -314,9 +322,9 @@ void Game::displayTile(const int index) const {
         for (int g = 0; g < 5; g++) {
             for (int j = 0; j < _mussels[index+g].getSize(); j++) {
                 if (_mussels[index+g].getMold()[i][j].getIsUsed()) {
-                    std::cout << "██ ";
+                    std::cout << "██";
                 } else {
-                    std::cout << "   ";
+                    std::cout << "  ";
                 }
             }
         }

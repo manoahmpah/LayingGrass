@@ -95,7 +95,18 @@ int MoldTiles::getSize() const {
     return _size;
 }
 
-void MoldTiles::rotateMold() {
+bool MoldTiles::isUsed() const {
+    for (int i = 0; i < getSize(); i++) {
+        for (int j = 0; j < getSize(); j++) {
+            if (_mold[i][j].getIsUsed()) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void MoldTiles::rotateMold() const {
     auto rotatedMold = std::make_unique<std::unique_ptr<Cell[]>[]>(_size);
     for (int i = 0; i < _size; ++i) {
         rotatedMold[i] = std::make_unique<Cell[]>(_size);
@@ -105,7 +116,7 @@ void MoldTiles::rotateMold() {
             rotatedMold[j][_size - 1 - i] = _mold[i][j];
         }
     }
-    // Libérer la mémoire de l’ancien _mold
+
     if (_mold != nullptr) {
         for (int i = 0; i < _size; ++i) {
             delete[] _mold[i];
@@ -118,7 +129,6 @@ void MoldTiles::rotateMold() {
     }
 }
 
-// MoldTiles.cpp
 void MoldTiles::flipMold() const {
     if (_mold == nullptr || _size <= 0) {
         throw std::runtime_error("Mold is not initialized properly");
@@ -129,17 +139,5 @@ void MoldTiles::flipMold() const {
             std::swap(_mold[i][j], _mold[i][_size - 1 - j]);
         }
     }
-}
-bool MoldTiles::isUsed() const {
-    // Parcourt toutes les cellules du _mold
-    for (int i = 0; i < getSize(); i++) {
-        for (int j = 0; j < getSize(); j++) {
-            // Si au moins une cellule est marquée comme utilisée
-            if (_mold[i][j].getIsUsed()) {
-                return true; // La tuile entière est considérée comme utilisée
-            }
-        }
-    }
-    return false; // Toutes les cellules sont inutilisées
 }
 

@@ -2,7 +2,10 @@
 
 int main() {
     Game game;
-    game.startGame();
+    game.displayMold(8);
+    game.rotateTile(8);
+    game.displayMold(8);
+
 
     return 0;
 }

@@ -96,7 +96,7 @@ public:
 
     void _testCountTileAround();
 
-    void _testCopyBoard() const;
+    void _testCopyBoard();
 
 private:
     explicit Game(int initialPlayerCount);
@@ -272,6 +272,8 @@ private:
     static bool isInVisited(const std::vector<std::vector<int>>& visitedTiles, int x, int y);
 
     static bool isPlaceCorrectly(int x, int y, int playerID, std::vector<std::vector<int>> &visitedTiles, const Board &board) ;
+
+    void askUserTiles(int &x, int &y) const;
 };
 
 

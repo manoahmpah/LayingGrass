@@ -38,34 +38,21 @@ void Game::createMussels() {
 void Game::displayMold(const int index) const {
     _mussels[index].displayMold();
 }
-void Game::displayFiveTile(const int startIndex) const {
-    int displayed = 0; // Nombre de tuiles affichées
-    constexpr int maxToDisplay = 5;
-
-    for (int i = startIndex; i < _mussels.size() && displayed < maxToDisplay; i++) {
-        if (_mussels[i].isUsed()) { // Si la tuile est déjà utilisée, passer à la suivante
-            continue;
-        }
-
-        std::cout << "Tile " << displayed + 1 << ":\n";
-
-        for (int row = 0; row < _mussels[i].getSize(); row++) {
-            for (int col = 0; col < _mussels[i].getSize(); col++) {
-                if (_mussels[i].getMold()[row][col].getIsUsed()) {
-                    std::cout << "██ ";
+void Game::displayFiveTile(const int index) const {
+#ifdef _WIN32
+    SET_CONSOLE_UTF8
+    #endif
+    for (int i = 0; i < _mussels[index].getSize(); i++) {
+        for (int g = 0; g < 5; g++) {
+            for (int j = 0; j < _mussels[index+g].getSize(); j++) {
+                if (_mussels[index+g].getMold()[i][j].getIsUsed()) {
+                    std::cout << "▄▄ ";
                 } else {
                     std::cout << "   ";
                 }
             }
-            std::cout << std::endl;
         }
         std::cout << std::endl;
-
-        displayed++;
-    }
-
-    if (displayed == 0) {
-        std::cout << "No tiles available to display." << std::endl;
     }
 }
 
@@ -74,7 +61,8 @@ void Game::displayBoard() const {
 }
 void Game::startGame() {
 
-    loader();
+    // loader();
+    setDefaultConfig();
 
     std::string choose;
     Art::showLandingPage();
@@ -99,14 +87,13 @@ int Game::gameLoop() {
     /* Place start tiles on the board */
     for (auto const& player : _players) {
     clearScreen();
-    Art::showTurnOf(player);
     int y = -1;
     char letter = ' ';
     int x = 0;
-    displayBoard();
 
     while (y < 1 || y > _board.getSize() || toupper(letter) < 'A' || toupper(letter) > static_cast<char>(_board.getSize() + 'A' - 1)) {
         clearScreen();
+        Art::showTurnOf(player);
         displayBoard();
         std::cout << "\nEnter a column letter (A to " << static_cast<char>(_board.getSize() + 'A' - 1) << "): ";
         std::cin >> letter;
@@ -142,35 +129,29 @@ for (int i = 0; i < _players.size(); i++) {
     int chooseMold;
     std::cin >> chooseMold;
 
-    int x = -1, y = -1;
-    while (x < 1 || x > _board.getSize() || y < 1 || y > _board.getSize()) {
-        std::cout << "Enter the column letter (A to " << static_cast<char>(_board.getSize() + 'A' - 1) << "): ";
-        char letter;
-        std::cin >> letter;
-        letter = toupper(letter);
+    int x = -1; int y = -1;
+    askUserTiles(x, y);
 
-        if (letter >= 'A' && letter <= static_cast<char>(_board.getSize() + 'A' - 1)) {
-            x = letter - 'A' + 1; // Convertir la lettre en indice numérique
-        } else {
-            std::cout << "Invalid column letter. Please try again.\n";
-            continue;
-        }
-
-        std::cout << "Enter the row number (1 to " << _board.getSize() << "): ";
-        std::cin >> y;
-
-        if (y < 1 || y > _board.getSize()) {
-            std::cout << "Invalid row number. Please try again.\n";
-        }
-    }
-    boardVerify.displayBoard();
-    return 0;
+    boardVerify.placeTiles(x-1, y-1, _players[i].getIdPlayer(), _shapeTiles[chooseMold-1].getTile());
     std::vector<std::vector<int>> visitedTiles;
-    boardVerify.placeTiles(x - 1, y - 1, _players[i].getIdPlayer(), _shapeTiles[(chooseMold + i) - 1].getTile());
-    isPlaceCorrectly(_startTiles[i][0], _startTiles[i][1], _players[i].getIdPlayer(), visitedTiles, boardVerify) ? std::cout << "Correctly placed" : std::cout << "Incorrectly placed";
 
-    return 0;
-    sleep(1);
+    while (!isPlaceCorrectly(_startTiles[i][0], _startTiles[i][1], _players[i].getIdPlayer(), visitedTiles, boardVerify)) {
+        x = -1; y = -1;
+        boardVerify = _board;
+
+        clearScreen();
+        Art::invalidOption();
+        displayBoard();
+        std::cout << std::endl;
+        askUserTiles(x, y);
+        boardVerify.placeTiles(x-1, y-1, _players[i].getIdPlayer(), _shapeTiles[chooseMold-1].getTile());
+       visitedTiles.clear();
+    }
+
+    visitedTiles.clear();
+
+    _board = boardVerify;
+    _board.displayBoard();
 }
 
     std::cout << std::endl;
@@ -294,6 +275,28 @@ bool Game::isPlaceCorrectly(const int x, const int y, const int playerID, std::v
 
     return aroundCount == totalTiles;
 }
+void Game::askUserTiles(int& x, int& y) const {
+    while (x < 1 || x > _board.getSize() || y < 1 || y > _board.getSize()) {
+        std::cout << "Enter the column letter (A to " << static_cast<char>(_board.getSize() + 'A' - 1) << "): ";
+        char letter;
+        std::cin >> letter;
+        letter = toupper(letter);
+
+        if (letter >= 'A' && letter <= static_cast<char>(_board.getSize() + 'A' - 1)) {
+            x = letter - 'A' + 1;
+        } else {
+            std::cout << "Invalid column letter. Please try again.\n";
+            continue;
+        }
+
+        std::cout << "Enter the row number (1 to " << _board.getSize() << "): ";
+        std::cin >> y;
+
+        if (y < 1 || y > _board.getSize()) {
+            std::cout << "Invalid row number. Please try again.\n";
+        }
+    }
+}
 /* ========= Getter ========= */
 /**
  * \brief Gets the number of players currently playing.
@@ -388,7 +391,6 @@ void Game::loader() {
                 sleep(3);
             }
             clearScreen();
-            setDefaultConfig();
         }
         sleep(2);
     }
@@ -434,8 +436,11 @@ void Game::instruction() {
 
     }
 
-void Game::_testCopyBoard() const {
+void Game::_testCopyBoard() {
+    setDefaultConfig();
     _board.placeTile(0, 0, 1);
-    const Board board2 = _board;
+    Board board2(_numberPlayerPlaying);
+    board2 = _board;
     board2.displayBoard();
 }
+

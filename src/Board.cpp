@@ -17,7 +17,7 @@
 
 
 
-Board::Board(const int numberPlayerPlaying) : _size(20) {
+Board::Board(const int numberPlayerPlaying) : _size(20){
     adjustSize(numberPlayerPlaying);
     createBoard();
 
@@ -43,8 +43,6 @@ Board &Board::operator=(const Board &other) {
     }
     delete[] _board;
 
-    delete _players;
-
     _size = other._size;
     createBoard();
     for (int i = 0; i < _size; i++) {
@@ -53,6 +51,7 @@ Board &Board::operator=(const Board &other) {
         }
     }
 
+    _players = other._players;
 
     return *this;
 }
